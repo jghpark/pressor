@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PRESSOR 0.9 | The Anesthesia Strategy Game</title><style>
+:root{color-scheme:dark;--bg:#08111d;--panel:#111f2c;--panel2:#172b3b;--border:#294154;--ink:#ecf5fa;--muted:#9aafbe;--cyan:#58d3d6;--green:#79dda0;--amber:#ffc873;--red:#ff7381;--blue:#8bb1ff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -20%,#1b3245 0%,#08111d 65%);color:var(--ink);font:14px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}button,input,select{font:inherit}button{cursor:pointer;border:1px solid #395266;background:#20354a;color:var(--ink);padding:9px 12px;border-radius:9px;transition:.15s}button:hover:not(:disabled){border-color:var(--cyan);background:#29485e}button:disabled{opacity:.42;cursor:not-allowed}.primary{background:#146875;border-color:#2e9eae;font-weight:750}.warning{background:#6e363e;border-color:#ae5b65}.secondary{background:#172b3b}.shell{max-width:1500px;margin:auto;padding:18px}.top{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:15px}.brand{font-size:25px;letter-spacing:2px;font-weight:900}.brand span{color:var(--cyan)}.sub{font-size:12px;color:var(--muted);letter-spacing:.7px}.topright{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.pill{padding:5px 9px;border-radius:99px;border:1px solid #385367;color:var(--muted);font-size:12px}.layout{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(310px,1fr);gap:14px}.panel{background:rgba(17,31,44,.94);border:1px solid var(--border);border-radius:14px;padding:15px;min-width:0}.cardtitle{font-size:12px;letter-spacing:1.25px;text-transform:uppercase;color:var(--muted);font-weight:800;margin:0 0 11px}.monitor{background:#070d14;border:1px solid #324453;border-radius:12px;padding:13px}.vitals{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}.vital{background:#101d27;border:1px solid #1c3444;border-radius:9px;padding:8px}.vital label{display:block;font-size:10px;color:var(--muted);letter-spacing:1px}.vital strong{display:block;font-size:clamp(20px,2.5vw,32px);font-variant-numeric:tabular-nums}.vital small{font-size:10px;color:#93aabc}.good{color:var(--green)}.bad{color:var(--red)}.caution{color:var(--amber)}.wave{width:100%;height:135px;display:block;margin:8px 0 0;border:1px solid #182e3b;border-radius:8px;background:#050c13}.two{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:13px}.three{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.progress{height:9px;background:#2a3b4a;border-radius:10px;overflow:hidden}.progress i{display:block;height:100%;background:var(--cyan);width:0%;transition:width .15s}.row{display:flex;align-items:center;justify-content:space-between;gap:8px}.stack{display:grid;gap:8px}.mini{font-size:12px;color:var(--muted)}.value{font-weight:750;font-variant-numeric:tabular-nums}.control{display:grid;gap:3px}.control label{display:flex;justify-content:space-between;gap:5px;font-size:12px}.control input{width:100%;accent-color:var(--cyan)}.controls{display:grid;grid-template-columns:1fr auto;gap:7px;align-items:center}.drug{border:1px solid #344d61;background:#122637;border-radius:10px;padding:10px;margin-top:8px}.drughead{display:flex;justify-content:space-between;gap:5px;align-items:center}.drughead strong{font-size:13px}.drughead span{font-size:11px;color:var(--muted)}.drug .act{display:flex;align-items:center;gap:6px;margin-top:7px}.drug select{min-width:0;width:100%;padding:7px;background:#0a1a27;color:var(--ink);border:1px solid #38576a;border-radius:7px}.drug button{white-space:nowrap;padding:7px 9px}.drug .explain{font-size:11px;color:#9ab0c0;margin:6px 0 0}.event{border:1px solid #644951;background:linear-gradient(110deg,#3b2633,#1d2837);border-radius:10px;padding:12px;min-height:88px}.event strong{color:#ffd1a8}.tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}.tabs button.active{background:#185e6c;border-color:#56c5cd}.actionGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.actionGrid button{text-align:left;font-size:12px;min-height:40px}.log{height:172px;overflow:auto;background:#091622;border-radius:9px;border:1px solid #20394b;padding:8px;font-size:11px;color:#c4d4df}.log>div{border-bottom:1px solid #233547;padding:4px 0}.log time{color:#6ad3d6;margin-right:7px}.hidden{display:none!important}.modal{position:fixed;inset:0;background:#020910db;display:flex;align-items:center;justify-content:center;z-index:5;padding:16px;overflow-y:auto}.modalbox{width:min(670px,100%);max-height:96vh;overflow:auto;background:#132639;border:1px solid #456276;border-radius:18px;padding:26px;box-shadow:0 22px 80px #0009}.modalbox h1{font-size:32px;margin:0 0 7px}.modalbox h2{font-size:20px;margin:0 0 9px}.modalbox p{color:#bbcad6}.casepick{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:15px 0}.choice{padding:13px;text-align:left;background:#182f41;border:1px solid #345368;border-radius:10px;cursor:pointer}.choice.active{border:2px solid var(--cyan);background:#173d49}.choice strong{display:block;font-size:13px}.choice small{color:#b4c4d0}.description{font-size:12px;color:var(--muted)}.status{font-size:12px;line-height:1.55}.stateRow{display:flex;gap:8px;flex-wrap:wrap}.stateRow span{background:#1a3443;border:1px solid #345466;padding:5px 8px;border-radius:7px;font-size:11px}.footer{color:#8aa1b1;text-align:center;font-size:11px;margin:14px 0 2px}.hr{border:0;border-top:1px solid var(--border);margin:13px 0}.speed button.selected{background:#176a73;border-color:#61d1d8}.kbd{background:#294358;padding:2px 5px;border-radius:4px}.rightcolumn{display:grid;gap:14px;align-content:start}.toast{font-size:11px;color:#ffd1a4;margin-top:4px;min-height:18px}.meters{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}.meter{padding:8px;background:#0f2231;border-radius:8px}.meter label{display:block;font-size:10px;color:var(--muted)}.meter strong{font-size:18px}.meter .progress{height:5px;margin-top:5px}.actionRow{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.anchor{color:var(--cyan)}@media(max-width:1050px){.layout{grid-template-columns:1fr}.rightcolumn{grid-template-columns:1fr 1fr}}@media(max-width:700px){.shell{padding:8px}.panel{padding:10px}.two,.rightcolumn{grid-template-columns:1fr}.vitals{grid-template-columns:repeat(3,minmax(0,1fr))}.casepick{grid-template-columns:1fr}.modalbox{padding:17px}.three{grid-template-columns:1fr}.drughead{align-items:start}.brand{font-size:21px}}
+
+.audioTools{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.audioTools label{color:var(--muted);font-size:11px;display:flex;align-items:center;gap:5px}.audioTools input[type=range]{width:75px;accent-color:var(--cyan)}.audioTools button{font-size:12px;padding:6px 9px}.alarmStrip{min-height:32px;border:1px solid #294154;background:#152638;border-radius:9px;padding:6px 10px;display:flex;gap:8px;align-items:center;margin-bottom:10px;color:#a7c3d2;font-size:12px}.alarmStrip.warningActive{border-color:#b66b44;background:#423026;color:#ffd4a4}.alarmStrip.criticalActive{border-color:#c55e69;background:#4c2531;color:#ffdce0;animation:pulseBorder 1.7s infinite}@keyframes pulseBorder{50%{border-color:#572e36}}.indicator{height:8px;width:8px;background:var(--green);border-radius:50%;display:inline-block;flex-shrink:0}.warningActive .indicator{background:var(--amber)}.criticalActive .indicator{background:var(--red)}.soundTip{font-size:10px;color:#8299aa}.casepick .choice:hover{border-color:var(--cyan)}.buttonPop{animation:tap .1s ease-out}@keyframes tap{50%{transform:scale(.98)}}
+
+/* Compact three-lane cockpit, no document scrolling on desktop */
+@media (min-width:1160px) and (min-height:690px){
+html,body{height:100%;overflow:hidden}
+.shell{max-width:none;height:100dvh;padding:7px 11px;display:flex;flex-direction:column;overflow:hidden}
+.top{flex:0 0 auto;margin-bottom:6px;gap:6px;min-height:39px}
+.brand{font-size:19px}.sub{font-size:9px}.topright{gap:5px}.pill{padding:4px 7px;font-size:10px}
+.topright button{padding:5px 7px;font-size:11px}.audioTools{gap:5px}.audioTools input[type=range]{width:48px}.audioTools label{font-size:10px}
+.layout{flex:1;min-height:0;display:grid;grid-template-columns:minmax(390px,1.30fr) minmax(260px,.91fr) minmax(275px,.91fr);grid-template-rows:minmax(0,1fr) minmax(92px,.20fr) minmax(82px,.18fr);grid-template-areas:'monitor drugs right' 'event drugs right' 'log drugs right';gap:7px;overflow:hidden}
+.layout>main{display:contents}.layout>aside{display:flex;grid-area:right;flex-direction:column;gap:9px;min-height:0;min-width:0}
+.layout>main>section:nth-child(1){grid-area:monitor}.layout>main>section:nth-child(2){grid-area:event}.layout>main>section:nth-child(3){grid-area:log}
+.layout>aside>section:nth-child(1){grid-area:drugs}.layout>aside>section:nth-child(2){flex:0 0 auto;overflow:visible}.layout>aside>section:nth-child(3){flex:1 1 0;min-height:150px;overflow:hidden;display:flex;flex-direction:column}
+.panel{padding:9px;overflow:auto;min-height:0;border-radius:10px}.cardtitle{margin:0 0 5px;font-size:10px}.monitor{padding:7px}.alarmStrip{min-height:25px;margin-bottom:5px;padding:3px 7px}.vitals{gap:5px}.vital{padding:4px 6px}.vital strong{font-size:clamp(19px,2vw,26px)}.vital small,.vital label{font-size:9px}
+#trace{height:clamp(68px,10vh,104px)!important;margin-top:5px}#liveWave{height:clamp(49px,7vh,73px)!important;margin-top:5px}
+.two{margin-top:7px;gap:8px}.stateRow span{padding:3px 5px;font-size:10px}.meters{gap:4px}.meter{padding:5px}.meter strong{font-size:14px}.description{font-size:10px}.mini{font-size:10px}.event{padding:7px;min-height:0}.event .actionRow{margin-top:5px}.event button{padding:5px 7px;font-size:10px}.log{height:calc(100% - 5px);font-size:10px;overflow:auto}.tabs{margin-bottom:5px}.tabs button{padding:5px 7px;font-size:11px}
+.drug{padding:6px;margin-top:5px}.drughead strong{font-size:12px}.drug .explain{font-size:10px;margin:2px 0 0}.drug .act{margin-top:4px}.drug select{padding:4px;font-size:11px}.drug button{padding:4px 6px;font-size:11px}.toast{min-height:14px}
+.control{gap:0}.control label{font-size:11px}.control input{margin:0;height:18px}.rightcolumn{gap:0}.stack{gap:6px}#ventTrace{height:clamp(75px,12vh,125px)!important;margin-top:3px}#ventInfo{font-size:10px}
+.footer{display:none}
+}
+@media(max-width:1159px), (max-height:689px){html,body{overflow:auto}.shell{height:auto}.layout{height:auto}}
+
+/* 0.8 — legible cockpit, better distribution of available screen space */
+:root{--muted:#b3c7d4;--border:#335568}
+body{font-size:15px;line-height:1.48}
+.panel{background:#102132}.cardtitle{font-size:13px;letter-spacing:.65px;color:#b6d2e1}
+.description,.mini,.status{font-size:13px;line-height:1.45}
+.vital label,.vital small,.meter label{font-size:12px}
+.drughead strong{font-size:15px}.drughead span,.drug .explain{font-size:12px}
+.actionGrid button{font-size:13px;min-height:44px}
+.drug{padding:11px;margin-top:9px}.tabs{gap:7px}.tabs button{padding:9px 11px;font-size:13px}
+.pill{font-size:12px}.log{font-size:12px}.stateRow span{font-size:12px}
+.drug input[type=number],.doseRow input[type=number]{min-width:0;width:100%;padding:8px;border:1px solid #496b81;border-radius:8px;background:#081b2a;color:#eaf9ff;font-size:14px}
+.unitBadge{font-size:11px;color:#bed6e4;white-space:nowrap}
+.doseRow{display:grid;grid-template-columns:minmax(125px,1fr) minmax(70px,105px) auto;align-items:center;gap:8px;margin:9px 0;padding:9px;border:1px solid #315268;border-radius:9px;background:#132a3a}
+.doseRow label{font-size:13px;font-weight:700}.doseRow label .mini{display:block;font-weight:400}
+.finding{border:1px solid #4a8290;background:#102d3b;padding:11px;border-radius:9px;margin-top:10px;font-size:13px;line-height:1.5}
+.finding p{margin:6px 0}.difficultyPicker{display:grid;gap:6px;margin:14px 0}.difficultyPicker label{font-size:12px;font-weight:800;letter-spacing:.8px;color:#bbd5e3}.difficultyPicker select{padding:11px;background:#081b2a;color:#e8f8ff;border:1px solid #496e83;border-radius:9px;font-weight:650}
+@media(min-width:1160px) and (min-height:690px){
+.shell{padding:9px 12px}.layout{grid-template-columns:minmax(395px,1.36fr) minmax(305px,1.01fr) minmax(325px,1fr);grid-template-rows:minmax(0,1fr) minmax(112px,.22fr) minmax(88px,.19fr);gap:9px}
+.panel{padding:12px}.brand{font-size:22px}.sub{font-size:10px}.cardtitle{font-size:12px;margin-bottom:7px}
+.vital label,.vital small{font-size:10px}.vital strong{font-size:clamp(23px,2.2vw,33px)}
+#trace{height:clamp(80px,12vh,122px)!important}#liveWave{height:clamp(65px,9vh,92px)!important}
+.drug{padding:9px;margin-top:7px}.drughead strong{font-size:14px}.drug .explain{font-size:11px}.drug input[type=number]{padding:6px}.drug select{padding:6px;font-size:13px}.drug button{padding:6px 9px;font-size:12px}
+.actionGrid button{font-size:12px;min-height:40px}.tabs button{padding:7px 9px;font-size:12px}
+.log{font-size:12px}.description,.mini,.status{font-size:12px}.stateRow span{font-size:11px}.meters .meter strong{font-size:17px}
+.control label{font-size:13px}.control{gap:3px}.control input{height:16px}.wave{margin-top:6px}
+}
+@media(max-width:1350px) and (min-width:1160px){.layout{grid-template-columns:minmax(365px,1.2fr) minmax(275px,.95fr) minmax(285px,.94fr)}}
+
+/* 0.9: use all available right-column height; readable controls without nested objective scrollbars */
+@media (min-width:1160px) and (min-height:690px){
+.layout>aside{gap:9px}.layout>aside>section:nth-child(2){flex:0 0 auto;padding:11px}
+.layout>aside>section:nth-child(3){flex:1;padding:14px;overflow:hidden}
+#objectives{font-size:14px;line-height:1.48;flex:1;min-height:0}
+#objectives .description{font-size:13px}
+#ventTrace{height:67px!important}
+.ventGrid{display:grid;grid-template-columns:1fr 1fr;gap:7px 11px}
+.ventGrid .control input[type=range]{width:100%}
+.ventSettings .control label{font-size:12px}
+.ventSettings .stateRow{margin-top:6px}
+.ventSettings #ventInfo{font-size:12px;line-height:1.35;min-height:0}
+.ventSettings .control{gap:0}
+}
+.modeSelect,.volatileSelect{padding:7px 8px;background:#091b2a;border:1px solid #40627a;border-radius:7px;color:#e5f5fc;width:100%;font-size:13px}
+.ventGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px}
+.ventSettings .modeHeader{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:9px;margin-bottom:9px}
+.ventSettings .modeHeader label{font-size:13px;font-weight:650}
+.ventSettings .control label{font-size:12px}
+.ventSettings .stateRow{gap:5px;flex-wrap:wrap}
+.ventSettings .control input{accent-color:#65d5d8}
+.volatilePanel{margin-top:10px;padding:9px;border:1px solid #3e6074;border-radius:9px;background:#0b1b29}
+.volatilePanel h3{margin:0 0 7px;font-size:13px;color:#d0e7f1}
+.volatileRow{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:center}
+.macMetrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin-top:6px}
+.macMetrics>div{background:#142f3e;border-radius:6px;padding:5px;text-align:center}
+.macMetrics strong{display:block;font-size:14px;color:#8ce9dd}
+.macMetrics small{font-size:10px;color:#b7cbd7}
+@media(max-width:1159px), (max-height:689px){.layout>aside{display:flex;gap:10px}.layout>aside>section:nth-child(2){flex:auto}.layout>aside>section:nth-child(3){flex:auto;min-height:180px;overflow:visible}.layout{grid-template-areas:none}}
+
+/* Fix: interventions in middle column; a genuine flexible right-hand subcolumn */
+@media(min-width:1160px) and (min-height:690px){
+.layout>aside{display:contents}
+.layout>aside>section:nth-child(1){grid-area:drugs}
+.layout>aside>.ventRight{grid-area:right;min-height:0;min-width:0;display:flex;flex-direction:column;gap:8px;overflow:hidden}
+.ventRight>.ventSettings{flex:0 0 auto;min-height:0;overflow:visible;padding:10px}
+.ventRight>section:nth-child(2){flex:1 1 0;min-height:0;overflow:hidden;padding:12px;display:flex;flex-direction:column}
+.ventSettings .ventGrid{gap:4px 10px}
+.ventSettings .control{gap:0}.ventSettings .control label{font-size:11px}.ventSettings .control input{height:13px}
+.ventSettings .modeHeader{margin-bottom:4px}
+.ventSettings #ventTrace{height:47px!important;margin:3px 0}
+.ventSettings .stateRow span{font-size:10px;padding:2px 4px}
+.ventSettings #ventInfo{font-size:11px;line-height:1.2}
+.ventSettings .volatilePanel{margin-top:5px;padding:7px}
+.ventSettings .volatilePanel h3{margin-bottom:3px}
+.ventSettings .macMetrics{margin-top:4px}
+.ventSettings .macMetrics>div{padding:3px}
+.ventSettings .macMetrics strong{font-size:13px}
+.ventSettings .macMetrics small{font-size:9px}
+.ventSettings .volatilePanel .mini{font-size:10px}
+.ventRight #objectives{flex:1;min-height:0;overflow:hidden;font-size:13px}
+.ventRight #objectives .description{font-size:12px;margin:5px 0}
+}
+@media(max-width:1159px), (max-height:689px){.layout>aside{display:flex;flex-direction:column}.layout>aside>.ventRight{display:flex;flex-direction:column;gap:9px}.ventRight>section{flex:auto;min-height:0}}
+
+.patientStats{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 8px;color:#bbd5e4;font-size:12px}
+.patientStats span{border:1px solid #29465a;background:#122736;border-radius:6px;padding:3px 8px;white-space:nowrap}
+.patientStats b{color:#ecfaff;font-variant-numeric:tabular-nums}
+@media(min-width:1160px) and (min-height:690px){.patientStats{font-size:11px;margin-bottom:5px;gap:4px}.patientStats span{padding:2px 5px}}
+
+/* Intro access screen. Client-side gate: NOT server-side access control. */
+body.access-locked > .shell,body.access-locked > #modal{visibility:hidden;pointer-events:none}
+#pressorAccessGate{display:none;position:fixed;inset:0;z-index:999999;background:radial-gradient(ellipse at 50% 20%,#152c3d,#07121e 75%);align-items:center;justify-content:center;padding:20px}
+body.access-locked #pressorAccessGate{display:flex}
+.access-card{width:min(420px,100%);border:1px solid #36566b;border-radius:18px;background:#102233;box-shadow:0 26px 70px #0008;padding:34px 30px 28px;text-align:center}
+.access-title{font-size:clamp(32px,6vw,46px);letter-spacing:.16em;font-weight:850;line-height:1;color:#f3fbff;margin:0}
+.access-wave{display:block;height:32px;margin:14px auto 20px;width:min(230px,100%)}
+.access-sub{font-size:13px;letter-spacing:.03em;color:#adc4d3;margin:0 0 26px}
+.access-card label{font-size:12px;display:block;text-align:left;color:#c2d5e2;margin-bottom:8px;font-weight:650}
+.access-input{background:#091a2a;border:1px solid #547187;border-radius:9px;color:#f5fbff;width:100%;padding:13px 14px;font-size:17px;letter-spacing:.04em;outline:none}
+.access-input:focus{border-color:#5bdbdb;box-shadow:0 0 0 2px #5bdbdb22}
+.access-form button{width:100%;margin-top:14px;background:#156979;border:1px solid #49adbb;font-weight:750;font-size:14px;padding:12px}
+.access-form button:hover{background:#197d8c}
+.access-error{min-height:23px;color:#ff9ca8;font-size:12px;margin-top:9px;text-align:left}
+.access-foot{font-size:11px;color:#839dad;margin-top:15px}
+</style></head><body class="access-locked"><section id="pressorAccessGate" aria-label="PRESSOR access" role="dialog" aria-modal="true">
+<div class="access-card">
+<h1 class="access-title">PRESSOR</h1>
+<svg class="access-wave" viewBox="0 0 230 32" aria-hidden="true"><path d="M1 16 H95 l9 -8 9 15 11 -22 10 29 11 -14 H229" fill="none" stroke="#5bdbdb" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/></svg>
+<p class="access-sub">Anesthesia strategy simulator</p>
+<form class="access-form" id="pressorAccessForm" autocomplete="off">
+<label for="pressorPassword">Enter password to continue</label>
+<input class="access-input" id="pressorPassword" type="password" placeholder="Password" autocomplete="off" autocapitalize="off" spellcheck="false" required autofocus />
+<button type="submit">Unlock PRESSOR</button>
+<div class="access-error" id="pressorPasswordError" role="alert" aria-live="polite"></div>
+</form><div class="access-foot">Private preview · PRESSOR 0.9</div>
+</div></section>
+<div class="shell"><header class="top"><div><div class="brand">PRES<span>SOR</span> <span style="color:#9eb4c5;font-size:12px;letter-spacing:0">0.9</span> <span style="color:#b3c7d4;font-size:12px;font-weight:500;letter-spacing:0">by <a href="https://jacobgpark.com" target="_blank" rel="noopener noreferrer" title="Visit Dr. Jacob Park’s website" style="color:inherit;text-decoration:underline;text-decoration-color:#607d91;text-underline-offset:3px">Dr. Jacob Park</a></span></div><div class="sub">ANESTHESIA STRATEGY · SIMULATED PHARMACOLOGY · CONSEQUENCE-DRIVEN PLAY</div></div><div class="topright"><span class="pill" id="caseName">Mystery case not started</span><span class="pill" id="roundMode">SOLO</span><span class="pill" id="difficultyLabel">STANDARD</span><span class="pill" id="technique">Anesthetic: —</span><span class="pill" id="time">00:00 / 10:00</span><div class="audioTools"><button id="soundBtn" title="Toggle game sound">🔊 Sound on</button><label title="Sound effects volume">Volume <input type="range" id="audioVolume" min="0" max="100" value="32" aria-label="Sound effects volume"></label><label title="Enable or silence monitor alarms"><input type="checkbox" id="alarmToggle" checked> Alarms</label><label title="Pulse-ox tone: pitch tracks saturation"><input type="checkbox" id="pulseToggle" checked> Pulse tones</label></div><button class="secondary" id="helpBtn">How to play</button><button class="warning" id="restartBtn">New run</button></div></header>
+<div class="layout"><main class="stack"><section class="panel"><div class="row"><h2 class="cardtitle">Patient monitor</h2><div class="row speed"><button id="pauseBtn" class="primary">▶ Run</button><button data-speed="1" class="selected">1×</button><button data-speed="2">2×</button><button data-speed="4">4×</button></div></div><div class="monitor"><div class="alarmStrip" id="alarmStrip" role="status" aria-live="polite"><span class="indicator"></span><span id="alarmText">Monitor online · waiting for case</span></div><div class="patientStats" id="patientStats" aria-label="Patient demographics">Patient statistics available when case begins</div><div class="vitals"><div class="vital"><label>HR</label><strong id="hr" class="good">76</strong><small>bpm</small></div><div class="vital"><label>MAP</label><strong id="map" class="good">80</strong><small>mmHg</small></div><div class="vital"><label>SpO₂</label><strong id="spo" class="good">99</strong><small>%</small></div><div class="vital"><label>EtCO₂</label><strong id="etco" class="good">37</strong><small>mmHg</small></div><div class="vital"><label>CO</label><strong id="co" style="color:#a8b9c7">—</strong><small>L/min · assessed</small></div></div><canvas id="trace" width="900" height="135" class="wave" aria-label="Trend traces"></canvas><div class="row" style="margin-top:8px"><span class="mini">LIVE ECG · CAPNOGRAPHY (SCHEMATIC)</span><span class="mini">Waveforms derived from rhythm and ventilation</span></div><canvas id="liveWave" width="900" height="92" class="wave" style="height:92px" aria-label="Simulated ECG and capnography"></canvas><div class="row"><span class="mini">TRENDS · green HR · cyan MAP · amber SpO₂</span><span class="mini" id="trendText">Waiting for induction</span></div></div><div class="two"><div><div class="row"><h2 class="cardtitle">Clinical condition</h2><button id="assessBtn">Investigations</button></div><div class="stateRow" id="diagnostics"><span>Preload: ?</span><span>SVR: ?</span><span>Contractility: ?</span><span>PVR: ?</span></div><p class="description" id="diagnosticNote">Choose a diagnostic investigation to gather limited clinical information.</p></div><div><div class="row"><h2 class="cardtitle">Physiologic reserve</h2><strong id="reserveValue">100%</strong></div><div class="progress"><i id="reserveBar" style="width:100%;background:var(--green)"></i></div><div class="meters" style="margin-top:10px"><div class="meter"><label>Hypnosis</label><strong id="hyp">—</strong><div class="progress"><i id="hypBar"></i></div></div><div class="meter"><label>Analgesia</label><strong id="analg">—</strong><div class="progress"><i id="analgBar"></i></div></div><div class="meter"><label>Volume</label><strong id="vol">—</strong><div class="progress"><i id="volBar"></i></div></div></div></div></div></section>
+<section class="panel"><div class="row"><h2 class="cardtitle">Operating room · dynamic events</h2><span class="pill" id="phaseName">Induction</span></div><div class="event"><strong id="eventTitle">Clinical briefing</strong><div id="eventBody" class="status">Select a case to start.</div><div class="actionRow" id="eventActions"></div></div><div style="margin-top:12px"><div class="row"><span class="mini">PROCEDURE PROGRESS</span><span class="mini" id="percent">0%</span></div><div class="progress"><i id="caseBar"></i></div></div></section>
+<section class="panel"><div class="row"><h2 class="cardtitle">Procedure log</h2><span class="mini">Newest first</span></div><div id="log" class="log"></div></section></main>
+<aside class="rightcolumn"><section class="panel"><div class="row"><h2 class="cardtitle">Interventions</h2><span class="pill">UNLIMITED ACTIONS</span></div><p class="description">Actions are not limited by points. Clinical effects evolve in real time.</p><div class="tabs"><button data-tab="infusions" class="active">Infusions</button><button data-tab="boluses">Boluses</button><button data-tab="support">Support</button><button data-tab="crisis">Crisis</button><button data-tab="investigations">Investigations</button></div><div id="infusions" class="tabview"></div><div id="boluses" class="tabview hidden"></div><div id="support" class="tabview hidden"></div><div id="crisis" class="tabview hidden"></div><div id="investigations" class="tabview hidden"></div><div class="toast" id="toast"></div><div id="investigationResult" class="finding hidden" aria-live="polite"></div></section><div class="ventRight"><section class="panel ventSettings"><h2 class="cardtitle">Ventilation · anesthetic maintenance</h2>
+<div class="modeHeader"><label for="ventMode">Ventilation mode</label><select id="ventMode" class="modeSelect"><option value="vc">Volume control</option><option value="pc">Pressure control</option><option value="ps">Pressure support</option><option value="spont">Man / Spont</option></select></div>
+<div class="ventGrid">
+<div class="control"><label>RR <span id="rrLabel">12 /min</span></label><input type="range" id="rr" min="6" max="24" value="12" step="1"></div>
+<div class="control"><label>VT target <span id="vtLabel">450 mL</span></label><input type="range" id="vt" min="250" max="750" value="450" step="25"></div>
+<div class="control"><label>PEEP <span id="peepLabel">5 cmH₂O</span></label><input type="range" id="peep" min="0" max="15" value="5" step="1"></div>
+<div class="control"><label>Pressure target / PS <span id="pressureLabel">15 cmH₂O</span></label><input type="range" id="pressure" min="5" max="35" value="15" step="1"></div>
+<div class="control"><label>FiO₂ <span id="fioLabel">50%</span></label><input type="range" id="fio" min="21" max="100" value="50" step="1"></div>
+<div class="control"><label>Inspiratory fraction <span id="inspLabel">33%</span></label><input type="range" id="insp" min="20" max="55" value="33" step="1"></div>
+</div>
+<div class="row" style="margin:7px 0 4px"><span class="mini" id="modeHint">VT targeted; pressure varies with mechanics</span><span><button id="bagAssist" style="display:none;margin-right:4px">Bag / assist</button><button class="primary" id="ventApply">Apply</button></span></div>
+<div class="stateRow"><span id="pipInfo">PIP —</span><span id="autoInfo">Auto-PEEP —</span><span id="ventMeasured">Delivered VT —</span><span id="rhythmInfo">Rhythm: sinus</span></div>
+<canvas id="ventTrace" width="600" height="108" class="wave" aria-label="Illustrative ventilator flow waveform" style="height:76px"></canvas>
+<div class="description" id="ventInfo">Pressure-targeted modes can lose tidal volume when compliance falls; volume control may require higher pressure.</div>
+<div class="volatilePanel"><h3>Volatile maintenance</h3>
+<div class="volatileRow"><label class="mini">Agent <select class="volatileSelect" id="agent"><option value="sevo">Sevoflurane</option><option value="iso">Isoflurane</option><option value="des">Desflurane</option><option value="off">Off / TIVA</option></select></label>
+<div class="control"><label>Target MAC <span id="macLabel">0.0×</span></label><input type="range" id="macTarget" min="0" max="2" step="0.1" value="0"></div></div>
+<div class="macMetrics"><div><small>Age-adjusted 1 MAC</small><strong id="macReference">—</strong></div><div><small>Est. end-tidal MAC</small><strong id="etMac">0.00×</strong></div><div><small>Combined adequacy*</small><strong id="macAdequacy">—</strong></div></div>
+<div class="mini" style="margin-top:4px">*Game estimate incorporating IV hypnosis and opioid blunting, not a clinical MAC calculation.</div>
+</div></section><section class="panel"><h2 class="cardtitle">Objectives</h2><div id="objectives" class="status"></div><hr class="hr"><div class="row"><span class="mini">PROJECTED SCORE</span><strong id="score">100</strong></div><div class="row"><span class="mini">CASE PENALTY</span><strong id="penalty">0.0</strong></div><div class="row"><span class="mini">CURRENT UPGRADES</span><span id="upgrades" class="mini">None</span></div></section></div></aside></div><div class="footer">Game audio uses synthesized tones. Adjust volume or mute at any time. · Experimental strategy game. Drug units on infusion controls follow common clinical conventions, but simulated responses, kinetic constants, crisis thresholds, ventilator relationships, and outcome scores are experimental abstractions, not validated clinical models or medical guidance.</div></div>
+<div class="modal" id="modal"><div class="modalbox" id="modalContent"></div></div>
+<script>
+'use strict';
+const $=id=>document.getElementById(id), clamp=(x,a,b)=>Math.max(a,Math.min(b,x)), round=(n,d=0)=>Number(n).toFixed(d), rand=(a,b)=>a+Math.random()*(b-a);
+const CASES=[
+{id:'lv',title:'The Failing Pump',short:'HFrEF · emergency laparotomy',subtitle:'EF ~25%; low cardiac reserve. Prolonged afterload elevation can reduce forward flow.',duration:600,baseHR:86,contract:0.71,svr:1090,pvr:190,volume:0.91,rv:0.98,airway:1.0,stim:0.38,blood:0,baselineF:0.5,goal:'Maintain oxygen delivery through induction, hemorrhage, and recovery.',events:[{at:105,title:'Incision and traction',body:'Surgical stimulation rises. Inadequate analgesia increases sympathetic drive.',kind:'stim',value:0.85},{at:235,title:'Unexpected venous bleeding',body:'Blood loss is continuing. Source control is available; transfusion restores volume more efficiently than crystalloid.',kind:'bleed',value:0.043},{at:405,title:'Bleeding controlled by the surgeon',body:'The hemorrhage slows. The stimulus will soon decrease; anticipate offset of infusions.',kind:'bleedEnd',value:0}]},
+{id:'rv',title:'The Right Heart',short:'Pulmonary hypertension · abdominal surgery',subtitle:'Elevated PVR with reduced RV reserve. Ventilation and systemic perfusion interact.',duration:600,baseHR:87,contract:0.97,svr:1130,pvr:420,volume:0.99,rv:0.62,airway:1.08,stim:0.3,blood:0,baselineF:0.45,goal:'Protect RV output and systemic perfusion, minimizing hypoxia, acidosis, and excessive airway pressure.',events:[{at:110,title:'CO₂ retention',body:'Ventilation becomes less effective and pulmonary vascular load rises. Optimize minute ventilation carefully.',kind:'co2',value:0.35},{at:260,title:'Hypoxic pulmonary vasoconstriction',body:'A brief pulmonary insult reduces oxygenation and increases PVR. FiO₂ and ventilation may help.',kind:'hypoxia',value:1},{at:425,title:'Pulmonary insult resolves',body:'The reversible hypoxic component fades; anticipate hemodynamic changes.',kind:'hypoxiaEnd',value:0}]},
+{id:'lvot',title:'The Narrow Exit',short:'Dynamic LVOT obstruction · laparoscopy',subtitle:'Hypovolemia, tachycardia, and excess inotropy may intensify dynamic obstruction.',duration:600,baseHR:80,contract:1.21,svr:1110,pvr:175,volume:0.95,rv:1,airway:1,stim:0.32,blood:0,baselineF:0.5,goal:'Preserve filling and afterload, while avoiding tachycardia and unnecessary inotropic stimulation.',events:[{at:115,title:'Insufflation begins',body:'Intra-abdominal pressure decreases venous return. Dynamic obstruction can worsen with low preload.',kind:'insufflate',value:1},{at:270,title:'Surgical stimulation',body:'Tachycardia and hypercontractility risk worsening LVOT obstruction.',kind:'stim',value:0.98},{at:445,title:'Desufflation',body:'Venous return improves as pneumoperitoneum resolves.',kind:'insufflateEnd',value:0}]}];
+// Reproducible case generator: xmur3-style hash + Mulberry32 PRNG. Never use Math.random for case identity.
+function hashSeed(str){let h=2166136261;for(const c of String(str)){h=Math.imul(h^c.charCodeAt(0),16777619);}return h>>>0;}
+function rng(seed){let a=hashSeed(seed);return ()=>{a=(a+0x6D2B79F5)>>>0;let t=a;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return ((t^(t>>>14))>>>0)/4294967296;};}
+const rBetween=(r,a,b)=>a+(b-a)*r();
+const ARCHETYPES=[
+{key:'lv',label:'Systolic failure',base:0},
+{key:'rv',label:'Pulmonary hypertension',base:1},
+{key:'lvot',label:'Dynamic LVOT obstruction',base:2},
+{key:'copd',label:'Severe obstructive lungs',base:{id:'copd',title:'The Air Trap',short:'COPD · ventilatory challenge',subtitle:'Obstructive lung disease increases expiratory time constants. Auto-PEEP impairs venous return.',duration:600,baseHR:92,contract:1.02,svr:1060,pvr:260,volume:.97,rv:.87,airway:2.35,stim:.38,goal:'Keep expiratory flow adequate while supporting perfusion.',events:[]}},
+{key:'sepsis',label:'Vasodilatory shock',base:{id:'sepsis',title:'The Vasodilated Patient',short:'Sepsis · emergency source control',subtitle:'Reduced systemic vascular tone and relative hypovolemia complicate induction.',duration:600,baseHR:106,contract:.95,svr:690,pvr:195,volume:.86,rv:.95,airway:1.05,stim:.35,goal:'Support flow and perfusion as surgical source control proceeds.',events:[]}},
+{key:'bleed',label:'Active hemorrhage',base:{id:'bleed',title:'The Hidden Blood Loss',short:'Trauma · urgent hemostasis',subtitle:'Blood loss and anemia may make pressure-based treatment misleading.',duration:600,baseHR:108,contract:1.00,svr:1160,pvr:188,volume:.82,rv:1,airway:1,stim:.45,goal:'Detect bleeding, achieve source control, restore oxygen delivery.',events:[]}},
+{key:'as',label:'Fixed outflow obstruction',base:{id:'as',title:'The Fixed Valve',short:'Severe aortic stenosis · urgent surgery',subtitle:'A fixed-valve phenotype requires maintenance of filling and coronary perfusion; hypotension is costly.',duration:600,baseHR:76,contract:.91,svr:1100,pvr:195,volume:.93,rv:.99,airway:1,stim:.35,goal:'Protect systemic pressure, coronary perfusion, and cardiac output.',events:[]}},
+{key:'routine',label:'Limited reserve',base:{id:'routine',title:'The Unpredictable Routine',short:'Elective surgery · limited reserve',subtitle:'A seemingly routine case carries variable responses to anesthetic depth and surgical stimulation.',duration:600,baseHR:78,contract:1.08,svr:1030,pvr:175,volume:1.01,rv:1,airway:1,stim:.34,goal:'Maintain stable perfusion through changing stimulation and emergence.',events:[]}}
+];
+const PROCEDURES=[
+{label:'Emergency laparotomy',stim:.92,patterns:['bleed','stim']},
+{label:'Laparoscopic cholecystectomy',stim:.83,patterns:['insufflate','stim']},
+{label:'Major orthopedic fixation',stim:.86,patterns:['bleed','stim']},
+{label:'Thoracic procedure',stim:.78,patterns:['co2','hypoxia']},
+{label:'Urgent bowel surgery',stim:.98,patterns:['bleed','stim']},
+{label:'Vascular reconstruction',stim:.88,patterns:['bleed','stim']},
+{label:'ENT airway surgery',stim:.75,patterns:['broncho','hypoxia']},
+{label:'Robotic pelvic surgery',stim:.88,patterns:['insufflate','co2']}
+];
+let activeSeed=freshSeed(),runPlan=[],runPosition=0,currentCase=null,currentArchetype=0,lastGenerated=null;
+function generateCase(code,archetypeIndex=0,stage=0){
+ const a=ARCHETYPES[archetypeIndex%ARCHETYPES.length],r=rng(code+'|'+a.key+'|'+stage),base=structuredClone(typeof a.base==='number'?CASES[a.base]:a.base);
+ const proc=PROCEDURES[Math.floor(r()*PROCEDURES.length)];
+ const volatility=rBetween(r,.83,1.18),difficulty=1+stage*.055;
+ // Seeded demographic generation; BMI is mathematically consistent with height and weight.
+ const gender=r()<.5?'Female':'Male';
+ const heightCm=Math.round(gender==='Male'?rBetween(r,162,193):rBetween(r,150,181));
+ const desiredBMI=rBetween(r,19.5,36.5);
+ const weightKg=Math.round(desiredBMI*Math.pow(heightCm/100,2));
+ const patientBMI=weightKg/Math.pow(heightCm/100,2);
+ const idealWeightKg=Math.max(30,(gender==='Male'?50:45.5)+2.3*(heightCm/2.54-60));
+ const c={...base,id:a.key+'-'+hashSeed(code+'|'+stage).toString(36),title:base.title,short:a.label+' · '+proc.label,procedure:proc.label,archetype:a.key,
+  age:Math.round(rBetween(r,30,84)),gender,heightCm,weightKg,bmi:patientBMI,idealWeightKg,baseHR:clamp(base.baseHR*rBetween(r,.91,1.09),57,125),contract:clamp(base.contract*rBetween(r,.88,1.10),.52,1.44),svr:base.svr*rBetween(r,.88,1.12),
+  pvr:base.pvr*rBetween(r,.85,1.18),rv:clamp(base.rv*rBetween(r,.9,1.07),.45,1.08),volume:clamp(base.volume*rBetween(r,.90,1.08),.72,1.17),
+  airway:base.airway*rBetween(r,.88,1.13),stim:base.stim*rBetween(r,.86,1.13),duration:Math.round(rBetween(r,540,690)/10)*10,
+  seedCode:code,stage:stage,events:[],goal:base.goal,
+  subtitle:base.subtitle+' | Procedure: '+proc.label+'. Variable patient reserve and event timing.'};
+ const at1=rBetween(r,95,145),at2=rBetween(r,210,325),at3=rBetween(r,365,450),shift=rBetween(r,0.84,1.15),offset=stage*2;
+ const add=(at,title,body,kind,value)=>c.events.push({at:Math.round(at),title,body,kind,value});
+ add(at1,'Surgical stimulation','The procedural stimulus increases. Analgesic and hypnotic effects may be inadequate.','stim',proc.stim*volatility);
+ const crisisPool=[...proc.patterns];
+ if(a.key==='rv')crisisPool.push('hypoxia','co2');
+ if(a.key==='copd')crisisPool.push('broncho','co2','broncho');
+ if(a.key==='bleed'||a.key==='lv')crisisPool.push('bleed','bleed');
+ if(a.key==='lvot')crisisPool.push('insufflate','stim');
+ if(a.key==='sepsis')crisisPool.push('vasodilate');
+ const crisis=crisisPool[Math.floor(r()*crisisPool.length)];
+ if(crisis==='bleed') {add(at2,'Unexpected blood loss','Bleeding persists until source control or scheduled resolution. Monitor filling and oxygen delivery.','bleed',rBetween(r,.025,.059)*difficulty);add(at3,'Hemorrhage slows','Surgical control reduces continued bleeding.','bleedEnd',0);}
+ else if(crisis==='hypoxia') {add(at2,'Oxygenation deteriorates','Pulmonary impairment causes hypoxemia and increases pulmonary vascular load.','hypoxia',rBetween(r,.65,1.15)*difficulty);add(at3,'Pulmonary insult eases','The transient pulmonary insult begins to resolve.','hypoxiaEnd',0);}
+ else if(crisis==='co2') {add(at2,'Hypercapnic challenge','Ventilatory inefficiency develops, raising CO₂ and potentially PVR.','co2',rBetween(r,.25,.68)*difficulty);add(at3,'Ventilatory load eases','The procedural CO₂ load resolves.','co2',0);}
+ else if(crisis==='broncho'){add(at2,'Rising airway resistance','Airway resistance rises. Dynamic hyperinflation may threaten venous return.','broncho',rBetween(r,.6,1.1)*difficulty);add(at3,'Airway irritation settles','The provoking airway stimulus decreases.','bronchoEnd',0);}
+ else if(crisis==='insufflate'){add(at2,'Insufflation begins','Pneumoperitoneum may reduce venous return and intensify LVOT obstruction.','insufflate',rBetween(r,.65,1.18));add(at3,'Desufflation','Insufflation pressure is released.','insufflateEnd',0);}
+ else if(crisis==='vasodilate'){add(at2,'Vasoplegic surge','Systemic vascular tone drops despite ongoing flow.','vasodilate',rBetween(r,.12,.25));add(at3,'Source control underway','Vasoplegic stimulus starts to abate.','vasodilateEnd',0);}
+ else {add(at2,'Intense surgical stimulus','An abrupt noxious stimulus produces sympathetic activation.','stim',rBetween(r,.9,1.18));add(at3,'Stimulus reduced','Surgical stimulus becomes less intense.','stim',.3);}
+ // A distinct, reproducible crisis track is drawn from vulnerabilities and procedure exposures.
+ // Events do not reveal their diagnosis during live gameplay.
+ const specialPool=['anaphylaxis','bronchospasm','laryngospasm','hyperinflation','aspiration','ischemia'];
+ // Rare, reproducible inherited susceptibility; event still needs trigger exposure.
+ if(hashSeed(code+'|mh-susceptibility|'+stage)%41===0)specialPool.push('mh');
+ if(a.key==='copd')specialPool.push('bronchospasm','hyperinflation','hyperinflation');
+ if(a.key==='rv')specialPool.push('hyperinflation','aspiration');
+ if(proc.label==='ENT airway surgery')specialPool.push('laryngospasm','laryngospasm','bronchospasm');
+ if(proc.label==='Thoracic procedure')specialPool.push('bronchospasm','aspiration');
+ if(a.key==='lv'||a.key==='as')specialPool.push('ischemia','ischemia');
+ const special=specialPool[Math.floor(r()*specialPool.length)];
+ let specialAt=Math.round(rBetween(r,160,Math.min(365,c.duration-160)));
+ if(special==='laryngospasm')specialAt=r()<.5?Math.round(rBetween(r,35,75)):c.duration-Math.round(rBetween(r,55,95));
+ if(special==='aspiration'&&r()<.5)specialAt=Math.round(rBetween(r,65,120));
+ const specialEvents={
+ anaphylaxis:['Abrupt multisystem deterioration','Sudden hypotension, rising airway pressure, and deteriorating oxygenation follow an exposure.','anaphylaxis',1],
+ bronchospasm:['Rising airway resistance','Expiratory flow limitation and elevated peak pressure develop.','broncho',.75],
+ laryngospasm:['Sudden upper-airway obstruction','Air movement and capnography abruptly diminish during an airway transition.','laryngospasm',1],
+ hyperinflation:['Air trapping develops','Expiratory flow fails to reach zero and intrathoracic pressure rises.','broncho',.62],
+ mh:['Unexpected hypermetabolic signs','Rapidly rising CO₂, tachycardia, and increasing temperature suggest a dangerous metabolic process.','mh',1],
+ aspiration:['Abrupt respiratory deterioration','After an airway event, oxygenation worsens and airway pressures increase.','aspiration',1],
+ ischemia:['New perfusion concern','A mismatch in myocardial oxygen supply and demand is suspected.','ischemia',1]
+ };
+ const [st,sb,sk,sv]=specialEvents[special];
+ add(specialAt,st,sb,sk,sv);c.specialCrisis=special;
+ c.specialAt=specialAt;
+ if(r()>.43){const extraAt=rBetween(r,at2+40,Math.min(c.duration-145,at3+25));const kind=r()<.5?'broncho':'co2';
+ add(extraAt,kind==='broncho'?'Airway reactivity':'Ventilation challenge','A secondary, limited respiratory perturbation occurs.',kind,kind==='broncho'?rBetween(r,.15,.36):rBetween(r,.12,.26));}
+ add(c.duration-90,'Closing and emergence','Surgical stimulus decreases. Anticipate offset of hypnotic and analgesic infusions.','stim',.15);
+ c.events.sort((a,b)=>a.at-b.at);return c;
+}
+function buildRun(code,unused,runType){
+ const r=rng(code+'|hidden-deck');let order=ARCHETYPES.map((_,i)=>i);
+ for(let i=order.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[order[i],order[j]]=[order[j],order[i]];}
+ if(runType==='solo')return [generateCase(code,order[0],0)];
+ return order.slice(0,5).map((id,i)=>generateCase(code,id,i));
+}
+function freshSeed(){return Math.random().toString(36).slice(2,8).toUpperCase();}
+function todaySeed(){const d=new Date();return 'DAILY-'+d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0');}
+function escapeText(x){return String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+// Each drug has two modeled distribution compartments and an effect site. All amounts/concentrations are intentionally unitless game abstractions.
+const DRUGS={
+prop:{name:'Propofol',k10:.024,k12:.030,k21:.017,ke0:.072,drive:.045,desc:'Hypnosis ↑ · SVR ↓ · inotropy ↓',color:'#bca4f8'},
+remi:{name:'Remifentanil',k10:.060,k12:.026,k21:.021,ke0:.100,drive:.095,desc:'Analgesia ↑ · sympathetic response ↓',color:'#74a7ef'},
+norepi:{name:'Norepinephrine',k10:.070,k12:.012,k21:.026,ke0:.135,drive:.105,desc:'SVR ↑ · modest inotropy ↑',color:'#ffc879'},
+dobu:{name:'Dobutamine',k10:.040,k12:.020,k21:.020,ke0:.075,drive:.072,desc:'Inotropy ↑ · SVR ↓ · HR ↑',color:'#ed98b8'},
+vaso:{name:'Vasopressin',k10:.020,k12:.016,k21:.013,ke0:.040,drive:.038,desc:'SVR ↑ · slower offset',color:'#f2b86e'},
+phen:{name:'Phenylephrine',k10:.058,k12:.010,k21:.022,ke0:.110,drive:0,desc:'SVR ↑ · possible reflex HR ↓',color:'#ffe18f'},
+esmo:{name:'Esmolol',k10:.060,k12:.012,k21:.020,ke0:.095,drive:0,desc:'HR ↓ · contractility ↓',color:'#71d9d0'},
+sal:{name:'Salbutamol',k10:.027,k12:.010,k21:.015,ke0:.048,drive:0,desc:'Airway resistance ↓ · possible HR ↑',color:'#95e2b2'}};
+const levels={prop:[0,0.5,1,1.5,2,3,4],remi:[0,0.3,0.6,1,1.5,2.5,4],norepi:[0,0.2,0.5,1,1.5,2.5,4],dobu:[0,0.3,0.6,1,1.2,2,3],vaso:[0,0.2,0.5,1,1.5,2]};
+const infusionNames=['prop','remi','norepi','dobu','vaso'];
+// UI expresses infusion rates in familiar clinical units; conversion to model rate is intentionally schematic.
+const INFUSION_UNITS={prop:{unit:'mg/kg/h',factor:2,dec:1},remi:{unit:'mcg/kg/min',factor:.1,dec:3},norepi:{unit:'mcg/kg/min',factor:.1,dec:3},dobu:{unit:'mcg/kg/min',factor:5,dec:1},vaso:{unit:'units/min',factor:.03,dec:3}};
+function infusionLabel(name,modelRate){const u=INFUSION_UNITS[name];return (modelRate*u.factor).toFixed(u.dec)+' '+u.unit;}
+function actualInfusionRate(name,modelRate){if(!state)return '';const u=INFUSION_UNITS[name],dose=modelRate*u.factor,w=state.case.weightKg;
+ if(name==='prop')return (dose*w).toFixed(1)+' mg/h total';
+ if(name==='vaso')return (dose*60).toFixed(2)+' units/h total';
+ return (dose*w).toFixed(2)+' mcg/min total';}
+
+const fx=(c,ec=0.85)=>clamp(c/(ec+c),0,1);function createDrugState(){const obj={};Object.keys(DRUGS).forEach(k=>obj[k]={central:0,peripheral:0,effect:0,rate:0});return obj;}
+let difficulty='standard';let state=null,timer=null,mode='solo',lastUIRefresh=0,choice=0,selectedCase=0,playing=false,speed=1,lastFrame=0,accum=0,history=[],lastDraw=0,assessmentUntil=0,assessmentNote='',upgrades=[],runScores=[],pendingVent={rr:12,peep:5,fio:50},eventDone=new Set(),toastTimeout=null;
+// Synthesized UI sounds require no downloads or audio files. Audio is created only after a user gesture.
+const AUDIO={ctx:null,enabled:true,volume:.32,alarms:true,pulse:true,lastPulse:0,lastAlarm:-99,lastCritical:false};
+function audioInit(){if(!AUDIO.enabled)return null;try{if(!AUDIO.ctx){AUDIO.ctx=new (window.AudioContext||window.webkitAudioContext)();}if(AUDIO.ctx.state==='suspended')AUDIO.ctx.resume().catch(()=>{});return AUDIO.ctx;}catch(e){return null;}}
+function tone(freq=550,duration=.055,shape='sine',gain=.14,delay=0,endFreq=null){if(!AUDIO.enabled||AUDIO.volume<=0)return;const ac=audioInit();if(!ac)return;try{const at=ac.currentTime+delay;const osc=ac.createOscillator(),env=ac.createGain();osc.type=shape;osc.frequency.setValueAtTime(Math.max(30,freq),at);if(endFreq)osc.frequency.exponentialRampToValueAtTime(Math.max(30,endFreq),at+duration);env.gain.setValueAtTime(.00001,at);env.gain.exponentialRampToValueAtTime(Math.max(.00002,AUDIO.volume*gain),at+.008);env.gain.exponentialRampToValueAtTime(.00001,at+duration);osc.connect(env);env.connect(ac.destination);osc.start(at);osc.stop(at+duration+.02);}catch(e){}}
+function sound(kind){switch(kind){case 'click':tone(630,.045,'sine',.12,0,530);break;case 'menu':tone(420,.055,'triangle',.14);tone(635,.075,'sine',.11,.065);break;case 'bolus':tone(380,.055,'triangle',.16);tone(720,.075,'triangle',.13,.085);break;case 'infusion':tone(520,.065,'sine',.13);tone(620,.085,'sine',.12,.08);break;case 'confirm':tone(510,.06,'sine',.15);tone(760,.13,'sine',.13,.075);break;case 'pause':tone(470,.075,'triangle',.12);break;case 'run':tone(410,.07,'triangle',.12);tone(670,.1,'sine',.14,.09);break;case 'error':tone(270,.12,'sawtooth',.12);tone(185,.13,'sawtooth',.10,.10);break;case 'event':tone(420,.09,'triangle',.18);tone(300,.17,'triangle',.13,.13);break;case 'alarm':tone(760,.12,'sine',.18);tone(760,.12,'sine',.18,.21);break;case 'critical':tone(920,.15,'square',.08);tone(650,.15,'square',.08,.22);tone(920,.15,'square',.08,.44);break;case 'win':tone(490,.10,'sine',.15);tone(620,.11,'sine',.16,.12);tone(790,.22,'sine',.17,.27);break;case 'lose':tone(440,.18,'triangle',.17);tone(330,.21,'triangle',.15,.22);tone(220,.3,'triangle',.13,.46);break;}}
+function pulseSound(){if(!AUDIO.pulse||!AUDIO.enabled||!playing||!state||state.finished)return;const now=performance.now();const interval=clamp(60000/Math.max(40,state.hr),340,1300);if(now-AUDIO.lastPulse<interval)return;AUDIO.lastPulse=now;const pitch=clamp(360+(state.spo-85)*25,260,750);tone(pitch,.055,'sine',.065,0,pitch*.97);}
+function setSoundUI(){const b=$('soundBtn');if(b)b.textContent=AUDIO.enabled?'🔊 Sound on':'🔇 Sound off';}
+function currentAlarm(){if(!state||state.finished)return {level:0,text:'Monitor online · select a case'};let s=state,flags=[];if(s.map<55)flags.push('Severe hypotension');else if(s.map<65)flags.push('Low MAP');if(s.spo<90)flags.push('Critical desaturation');else if(s.spo<94)flags.push('Low SpO₂');if(s.hr>135||s.hr<45)flags.push('Extreme heart rate');if(s.etco>55)flags.push('Severe hypercapnia');if(s.temp>39)flags.push('Hyperthermia');if(s.airwayObstruction>.6)flags.push('Airway obstruction');if(s.co<2.2)flags.push('Low cardiac output (suspected)');if(!flags.length)return{level:0,text:'Vitals monitored · no critical alarm'};return{level:(s.map<55||s.spo<90||s.co<2.2)?2:1,text:flags.join(' · ')}}
+function alarmUpdate(){const a=currentAlarm(),el=$('alarmStrip');if(!el)return;el.className='alarmStrip'+(a.level===2?' criticalActive':a.level===1?' warningActive':'');$('alarmText').textContent=a.text;if(playing&&AUDIO.alarms&&a.level&&state&&state.t-AUDIO.lastAlarm>=(a.level===2?18:32)){sound(a.level===2?'critical':'alarm');AUDIO.lastAlarm=state.t;}}
+const MAC_REF={sevo:2.0,iso:1.17,des:6.6}; // approximate age-40 reference values, illustration only
+const MAX_DT=.5;function seed(c){const drugs=createDrugState();drugs.prop.rate=1.0;drugs.remi.rate=0.6;return {case:c,t:0,dt:0,drugs,hr:c.baseHR,map:75,co:4.5,spo:99,etco:38,hyp:0,analg:0,svr:c.svr,pvr:c.pvr,contract:c.contract,preload:c.volume,volume:c.volume,rv:c.rv,vent:{mode:'vc',rr:12,peep:5,fio:50,vt:450,insp:33,pressure:15},stim:c.stim,bloodRate:0,loss:0,hypoxic:0,co2Insult:0,insufflation:0,broncho:0,bleedControlled:false,hemodynamicStress:0,secondaryEventDone:false,phase:'Induction',reserve:100,penalty:0,assessUntil:-1,failTime:0,finished:false,score:100,events:[],log:[],forcedStop:false,airwayRes:c.airway,autoPeep:0,pip:18,minuteVent:5.4,rvStretch:0,lvFill:1,obstruction:0,activeBleed:0,ongoingLoss:0,bloodDebt:0,rhythm:'Sinus',rhythmUntil:0,rhythmCooldown:0,arrhythmiaBurden:0,arrhythmiaDone:false,bronchEventDone:false,criticalSoundAt:0,allergic:0,airwayObstruction:0,aspiration:0,mh:0,mhControlled:false,volatileSetting:0,triggerOn:false,agent:'off',etMac:0,deliveredVT:450,ventCompliance:.050,temp:36.8,antidote:false,epinephrineRelief:0,oxygenatedUntil:0,airwayPlan:0,ischemia:0,crisesHandled:[],vasoplegia:0,phaseMarks:[],replay:[],lastReplay:0,peakRisk:0};}
+function log(msg){if(!state)return;state.log.unshift({t:state.t,msg});state.log=state.log.slice(0,65);}
+function msg(t){$('toast').textContent=t;clearTimeout(toastTimeout);toastTimeout=setTimeout(()=>$('toast').textContent='',2800);}
+function spend(n=1){if(!state||state.finished){msg('Start a case first.');sound('error');return false;}return true;}
+const BOLUS_UNITS={phen:{unit:'mcg',base:100,game:1.8,max:1000},norepi:{unit:'mcg',base:8,game:1,max:100},prop:{unit:'mg/kg',base:50/70,game:1.6,max:4},remi:{unit:'mcg/kg',base:50/70,game:1.4,max:5},esmo:{unit:'mg/kg',base:20/70,game:1.8,max:3},sal:{unit:'puffs',base:4,game:2.3,max:20}};
+function manualDose(id,unit,max){const el=$(id),v=el?Number(el.value):NaN;if(!el||!el.value.trim()||!Number.isFinite(v)||v<=0||v>max){msg('Enter a valid positive '+unit+' dose (maximum '+max+').');sound('error');if(el)el.focus();return null;}return v;}
+function manualBolus(name){const d=BOLUS_UNITS[name],v=manualDose('dose-'+name,d.unit,d.max);if(v===null)return;
+ const absolute=d.unit.includes('/kg')?` (${(v*state.case.weightKg).toFixed(1)} ${d.unit.split('/')[0]} total)` : '';
+ bolus(name,v/d.base*d.game,v+' '+d.unit+absolute);}
+function rescueDose(kind){if(!state||state.finished)return;const defs={epi:{unit:'mcg',max:2000,base:100},dantrolene:{unit:'mg/kg',max:10,base:2.5},deepen:{unit:'mg/kg',max:4,base:50/70},fluids:{unit:'mL',max:2000,base:500},blood:{unit:'units',max:4,base:1},paralyze:{unit:'mg/kg rocuronium',max:2,base:50/70},triggerOn:{unit:'% volatile',max:8,base:2}};const d=defs[kind];if(!d){act(kind);return;}const n=manualDose('dose-action-'+kind,d.unit,d.max);if(n===null)return;window.__manualMultiplier=clamp(n/d.base,.05,12);window.__manualDescription=n+' '+d.unit+(d.unit.includes('/kg')?' ('+(n*state.case.weightKg).toFixed(1)+' '+d.unit.split('/')[0]+' total)':'');act(kind);window.__manualMultiplier=1;window.__manualDescription='';}
+function scaleManual(){return difficulty==='attending'?(window.__manualMultiplier||1):1;}
+function enteredActionDetail(){return difficulty==='attending'?' · '+(window.__manualDescription||'manual dose'):'';}
+function openInvestigations(){document.querySelector('[data-tab="investigations"]').click();}
+function assess(kind){if(!state||state.finished)return;const s=state;let title='',lines=[];
+ switch(kind){
+ case 'auscultation':title='Auscultation';lines=[s.airwayObstruction>.45?'Poor upper airway transmission; markedly diminished airflow.':s.broncho>.35?'Diffuse expiratory wheeze and prolonged expiration.':s.aspiration>.45?'Coarse breath sounds, possible asymmetric crackles.':'Bilateral breath sounds without prominent wheeze.',s.autoPeep>4?'Breath stacking is suspected from expiratory flow limitation.':'No strong clinical evidence of breath stacking.'];break;
+ case 'circuit':title='Circuit and airway check';lines=[s.pip>34?'Elevated peak airway pressure ('+round(s.pip)+' cmH₂O).':'Peak airway pressure '+round(s.pip)+' cmH₂O.',s.autoPeep>2.5?'Expiratory flow may not return to baseline; intrinsic PEEP is likely.':'No obvious substantial intrinsic PEEP on simplified flow display.',s.airwayObstruction>.5?'Concern for inadequate upper airway patency or ventilation.':'Circuit appears connected; check ETT position clinically.'];break;
+ case 'pocus':title='Focused cardiac ultrasound';lines=[s.rvStretch>.22||s.case.rv<.75?'RV appears enlarged or pressure-loaded.':'No striking RV dilation observed.',s.contract<.8?'LV systolic function appears reduced.':s.contract>1.15?'LV is hyperdynamic.':'LV systolic function appears reasonably preserved.',s.obstruction>.14?'Dynamic outflow acceleration and possible systolic anterior motion.':'No prominent dynamic outflow finding.',s.lvFill<.7?'LV filling appears reduced.':'LV chamber filling appears maintained.'];break;
+ case 'abg':title='Arterial blood gas';const ph=clamp(7.40-(s.etco-40)*.006-(s.mh*.09),7.0,7.56),paco2=clamp(s.etco+3+s.autoPeep*.7,17,130),pao2=clamp(65+(s.vent.fio-21)*3.2-(100-s.spo)*6,30,450);lines=['pH '+round(ph,2)+' · PaCO₂ '+round(paco2)+' mmHg · PaO₂ '+round(pao2)+' mmHg','Lactate ~'+round(clamp(.9+s.penalty*.06+s.ischemia*2,0.7,12),1)+' mmol/L (estimated).'];break;
+ case 'labs':title='Point-of-care laboratory panel';lines=['Hemoglobin ~'+round(clamp(135-s.bloodDebt*90,45,160))+' g/L (simulated).',s.temp>38.3?'Temperature elevated to '+round(s.temp,1)+' °C.':'Temperature '+round(s.temp,1)+' °C.',s.mh>.25?'Elevated CO₂ production suggests possible hypermetabolic physiology.':'No strong hypermetabolic laboratory pattern.'];break;
+ case 'filling':title='Preload and contractility assessment';
+ lines=[`Estimated LV filling: ${s.lvFill<.7?'low':s.lvFill>1.1?'high':'moderate'} (relative index ${round(s.lvFill,2)}).`,
+ `LV systolic performance: ${s.contract<.82?'reduced':s.contract>1.16?'hyperdynamic':'preserved'} (relative contractility ${round(s.contract,2)}).`,
+ s.rvStretch>.2?'RV distension may limit LV filling.':'No marked RV-related limitation of LV filling.',
+ 'Echocardiographic indices are approximate and load-dependent; they do not establish true preload or intrinsic contractility.'];break;
+ case 'hemodynamics':title='Advanced hemodynamic assessment';
+ // A game abstraction of flow/pressure monitoring, not a noninvasive SVR/PVR measurement.
+ const cvp=clamp(5+6*s.rvStretch+4*Math.max(0,s.volume-1),2,22);
+ const svrEstimate=Math.max(100,(s.map-cvp)*80/Math.max(.8,s.co));
+ const pvrEstimate=clamp(s.pvr,50,1200);
+ s.assessedHemodynamics={until:s.t+75,svr:svrEstimate,pvr:pvrEstimate};
+ lines=[`Estimated cardiac output: ${round(s.co,1)} L/min; estimated CVP: ${round(cvp,1)} mmHg.`,
+ `Estimated SVR: ${round(svrEstimate)} dyn·s·cm⁻⁵ (MAP−CVP/CO approximation).`,
+ `Estimated PVR: ${round(pvrEstimate)} dyn·s·cm⁻⁵ (game-derived invasive surrogate).`,
+ 'PVR requires pulmonary artery and wedge pressures plus cardiac output for direct calculation. These displayed values are schematic.'];break;
+ case 'surgical':title='Surgical field assessment';lines=[s.activeBleed>.01?'Ongoing blood loss noted by the surgical team.':'No obvious active hemorrhage.',s.insufflation>.1?'Insufflation is ongoing.':'No active pneumoperitoneum.'];break;
+ default:return;}
+ const output=$('investigationResult');output.classList.remove('hidden');output.innerHTML='<strong>'+escapeText(title)+'</strong><div>'+lines.map(x=>'<p>'+escapeText(x)+'</p>').join('')+'</div><span class="mini">Estimated findings; not a validated clinical examination.</span>';
+ if(kind==='filling'){s.assessedFilling={until:s.t+75,preload:s.lvFill,contract:s.contract};}
+ log(title+': '+lines.join(' '));sound('confirm');render(false);
+}
+function bolus(name,amount,displayDose=null){if(!spend(1))return;state.drugs[name].central+=amount;log(`${DRUGS[name].name} bolus · ${displayDose||amount.toFixed(1)+' game units'}`);sound('bolus');render();}
+function setRate(name,rate){if(!state)return;if(!spend(1))return;state.drugs[name].rate=rate;log(`${DRUGS[name].name} infusion → ${infusionLabel(name,rate)} · ${actualInfusionRate(name,rate)} (illustrative model)`);sound('infusion');render();}
+function act(kind){if(!state)return;
+ if(kind==='epi'){state.epinephrineRelief=clamp(state.epinephrineRelief+.55*scaleManual(),0,1.6);state.allergic=Math.max(0,state.allergic-.45*scaleManual());state.vasoplegia=Math.max(0,state.vasoplegia-.12*scaleManual());state.broncho=Math.max(0,state.broncho-.16*scaleManual());state.volume+=.018;log('Epinephrine administered'+enteredActionDetail()+': simulated cardiovascular and bronchodilator effect.');sound('bolus');render();return;}
+ if(kind==='dantrolene'){if(state.mh<=.05){log('Dantrolene prepared; no active hypermetabolic syndrome identified.');sound('click');render();return;}state.antidote=true;state.mhControlled=true;state.mh=Math.max(0,state.mh-.34*scaleManual());log('Dantrolene administered'+enteredActionDetail()+': simulated hypermetabolism decreases.');sound('confirm');render();return;}
+ if(kind==='triggerOff'){state.triggerOn=false;state.volatileSetting=0;state.agent='off';$('agent').value='off';$('macTarget').value=0;$('macLabel').textContent='0.0×';log('Volatile delivery discontinued; washout continues.');sound('confirm');render();return;}
+ if(kind==='triggerOn'){state.agent='sevo';state.triggerOn=true;state.volatileSetting=clamp(difficulty==='attending'?(window.__manualMultiplier||1):1,0,2);$('agent').value='sevo';$('macTarget').value=state.volatileSetting;$('macLabel').textContent=state.volatileSetting.toFixed(1)+'×';log('Volatile delivery requested'+enteredActionDetail()+'; effect rises over time.');sound('confirm');render();return;}
+ if(kind==='oxygen'){state.vent.fio=100;$('fio').value=100;$('fioLabel').textContent='100%';state.oxygenatedUntil=state.t+100;log('FiO₂ increased to 100%.');sound('confirm');render();return;}
+ if(kind==='cpap'){state.airwayObstruction=Math.max(0,state.airwayObstruction-.35);state.airwayPlan+=1;log('Jaw thrust / CPAP / airway maneuver: upper-airway obstruction partially relieved.');sound('confirm');render();return;}
+ if(kind==='deepen'){state.drugs.prop.central+=.85*scaleManual();state.airwayObstruction=Math.max(0,state.airwayObstruction-.22);log('Deepened anesthesia'+enteredActionDetail()+'; airway reflexes addressed.');sound('bolus');render();return;}
+ if(kind==='paralyze'){state.airwayObstruction=0;log('Paralysis and definitive airway rescue performed'+enteredActionDetail()+' (simplified; airway reassessed).');sound('confirm');render();return;}
+ if(kind==='suction'){state.aspiration=Math.max(0,state.aspiration-.22);state.airwayObstruction=Math.max(0,state.airwayObstruction-.18);log('Airway suction and tube position checked; residual pulmonary insult may persist.');sound('confirm');render();return;}
+ if(kind==='help'){state.reserve=clamp(state.reserve+1.0,0,100);log('Crisis team activated: checklist, extra hands and equipment requested.');sound('confirm');render();return;}
+ if(kind==='assess'){openInvestigations();return;}
+else if(kind==='fluids'){if(!spend(1))return;state.volume+=0.11*scaleManual();log('Crystalloid bolus'+enteredActionDetail()+': temporary intravascular volume increase.');}
+else if(kind==='blood'){if(!spend(1))return;state.volume+=0.15*scaleManual();state.bloodDebt=Math.max(0,state.bloodDebt-0.12*scaleManual());state.loss=Math.max(0,state.loss-0.025);log('Blood product resuscitation'+enteredActionDetail()+'; volume and oxygen-carrying capacity supported.');}
+else if(kind==='hemostasis'){if(!state.bloodRate){msg('No active bleeding to control.');return;}if(!spend(1))return;state.bloodRate=0;state.bleedControlled=true;log('Source control requested: ongoing bleeding stops.');}
+else if(kind==='decompress'){if(!spend(1))return;state.insufflation=0;log('Requested desufflation: reduced pressure on venous return.');}
+else if(kind==='airway'){if(!spend(1))return;state.broncho=Math.max(0,state.broncho-.5);state.hypoxic=Math.max(0,state.hypoxic-.35);log('Airway optimization: reversible airway impairment reduced.');}
+else if(kind==='rhythm'){if(state.rhythm==='Sinus'){msg('No clinically important rhythm disturbance detected.');return;}if(!spend(1))return;state.rhythm='Sinus';state.rhythmUntil=0;state.rhythmCooldown=state.t+85;state.arrhythmiaBurden=Math.max(0,state.arrhythmiaBurden-25);log('Arrhythmia managed. Sinus rhythm restored; recurrence risk remains if triggers persist.');}
+else if(kind==='inspect'){if(!spend(1))return;log(`Surgical check: ${state.bloodRate?'active hemorrhage':'no active bleeding'}; stimulus ${state.stim>.6?'high':'moderate'}; ventilation ${state.etco>45?'may be inadequate':'appears acceptable'}.`);}
+sound('confirm');render();}
+function applyVent(){if(!spend(1))return;state.vent={mode:$('ventMode').value,rr:Number($('rr').value),peep:Number($('peep').value),fio:Number($('fio').value),vt:Number($('vt').value),insp:Number($('insp').value),pressure:Number($('pressure').value)};log(`Ventilator ${state.vent.mode.toUpperCase()}: RR ${state.vent.rr}, PEEP ${state.vent.peep}, FiO₂ ${state.vent.fio}%, VT target ${state.vent.vt} mL, ΔP ${state.vent.pressure} cmH₂O.`);sound('confirm');render();}
+function updateVolatile(){if(!state||state.finished)return;const agent=$('agent').value,target=agent==='off'?0:Number($('macTarget').value);state.agent=agent;state.volatileSetting=target;state.triggerOn=target>0;log(agent==='off'?'Volatile off; washout underway.':agent+' target '+target.toFixed(1)+' age-adjusted MAC (schematic).');sound('infusion');render(false);}
+function adjustVentMode(){const mode=$('ventMode').value,pressure=(mode==='pc'||mode==='ps'),spont=mode==='spont';$('vt').disabled=pressure||spont;$('pressure').disabled=mode==='vc'||spont;$('rr').disabled=mode==='ps'||spont;$('bagAssist').style.display=spont?'inline-block':'none';$('modeHint').textContent=mode==='vc'?'Fixed VT; airway pressure changes':mode==='pc'?'Fixed driving pressure; VT changes':mode==='ps'?'Patient-triggered breaths with support':'Spontaneous breathing / manual circuit (simplified)';} 
+function processEvent(e){if(e.kind==='mh'&&state.etMac<.25){state.mhPending=true;log('No acute metabolic deterioration observed during this interval.');return;}state.events.push(e.title);log(`EVENT: ${e.title}`);if(upgrades.includes('pharmacy'))log('Team briefing: '+e.body);state.phaseMarks.push({t:state.t,title:e.title});sound('event');if(e.kind==='stim')state.stim=e.value;
+if(e.kind==='bleed'&&!state.bleedControlled)state.bloodRate=e.value;if(e.kind==='bleedEnd')state.bloodRate=0;
+if(e.kind==='co2')state.co2Insult=e.value;if(e.kind==='hypoxia'){state.hypoxic=e.value;state.broncho=.35;}
+if(e.kind==='hypoxiaEnd'){state.hypoxic=0;state.broncho=0;state.co2Insult=0;}
+if(e.kind==='broncho')state.broncho=clamp(state.broncho+e.value,0,1.4);if(e.kind==='bronchoEnd')state.broncho=Math.max(0,state.broncho-.65);if(e.kind==='vasodilate')state.vasoplegia=e.value;if(e.kind==='vasodilateEnd')state.vasoplegia=0;if(e.kind==='af'){state.rhythm='AF with RVR';state.rhythmUntil=state.t+95;}
+if(e.kind==='anaphylaxis'){state.allergic=1.0;state.vasoplegia=Math.max(state.vasoplegia,.25);state.broncho=clamp(state.broncho+.55,0,1.5);}
+if(e.kind==='laryngospasm'){state.airwayObstruction=1;}
+if(e.kind==='mh'){if(state.etMac>.25){state.mh=1.0;state.mhControlled=false;state.mhPending=false;}}
+if(e.kind==='aspiration'){state.aspiration=1;state.hypoxic=Math.max(state.hypoxic,.35);state.broncho=clamp(state.broncho+.25,0,1.5);}
+if(e.kind==='ischemia'){state.ischemia=.75;}
+if(e.kind==='insufflate')state.insufflation=e.value;if(e.kind==='insufflateEnd')state.insufflation=0;}
+function integrate(dt){const s=state,c=s.case;s.t+=dt;
+for(const ev of c.events){if(s.t>=ev.at&&!eventDone.has(ev.at)){eventDone.add(ev.at);processEvent(ev);}}
+if(s.t>510)s.phase='Emergence';else if(s.t>260)s.phase='Maintenance';else if(s.t>95)s.phase='Surgery';else s.phase='Induction';
+if(s.t>510){s.stim=0.12;if(s.drugs.prop.rate>0||s.drugs.remi.rate>0){/* player should deliberately taper */}}
+for(const [id,p] of Object.entries(DRUGS)){const d=s.drugs[id];const input=d.rate*p.drive*dt;const d1=(-p.k10*d.central-p.k12*d.central+p.k21*d.peripheral)*dt+input;const d2=(p.k12*d.central-p.k21*d.peripheral)*dt;d.central=Math.max(0,d.central+d1);d.peripheral=Math.max(0,d.peripheral+d2);d.effect=Math.max(0,d.effect+p.ke0*(d.central-d.effect)*dt);}
+const e=Object.fromEntries(Object.entries(s.drugs).map(([k,d])=>[k,fx(d.effect)]));
+// Volatile delivery is specified as a fraction of age-adjusted MAC. End-tidal uptake/washout is delayed.
+const desiredMac=s.triggerOn?s.volatileSetting:0;
+const etRate=s.triggerOn?.022:.014;
+s.etMac+=(desiredMac-s.etMac)*Math.min(1,dt*etRate);
+s.analg=clamp(e.remi*1.65,0,1);
+const ivHyp=clamp(e.prop*1.7,0,.98),volatileHyp=clamp(s.etMac*.68,0,.98);
+s.hyp=clamp(1-(1-ivHyp)*(1-volatileHyp),0,1);
+s.combinedAdequacy=clamp((s.hyp+.25*s.analg)*100,0,120);
+if(s.mhPending&&s.etMac>.4&&s.t<s.case.duration-45&&!s.mhControlled){s.mhPending=false;s.mh=1;log('Hypermetabolic deterioration develops after triggering anesthetic exposure.');sound('event');}
+
+// Hemorrhage is a continuous volume and oxygen-carrying-capacity problem; pressure modifies bleeding.
+const bleedingPressure=clamp(.65+s.map/150,.65,1.45);
+s.activeBleed=s.bloodRate*bleedingPressure;
+const bleedingLoss=s.activeBleed*dt/75;
+s.volume-=bleedingLoss;s.loss+=bleedingLoss;s.bloodDebt=clamp(s.bloodDebt+bleedingLoss,0,1);
+s.volume+=(c.volume-s.volume)*.00010*dt; // minimal redistribution, not restoration of lost red cells
+s.volume=clamp(s.volume,.38,1.35);s.loss=clamp(s.loss,0,1);
+// Coupled respiratory mechanics: simplified dynamic air trapping model, not a ventilator-grade calculation.
+const peep=s.vent.peep, fio=s.vent.fio/100;
+const vm=s.vent.mode||'vc',insp=s.vent.insp/100;
+s.airwayRes=clamp(c.airway*(1+2.2*s.broncho)*(1-.5*e.sal),.65,4.5);
+// Pneumoperitoneum and obesity-related baseline changes can reduce compliance.
+const compliance=clamp(.055/(1+.48*s.insufflation+.20*s.aspiration+.10*Math.max(0,s.vent.peep-8)),.019,.065);
+s.ventCompliance=compliance;
+const respDrive=clamp(1-.65*s.hyp-.45*e.remi-.18*s.airwayObstruction,.08,1.1);
+let freq=(vm==='ps'||vm==='spont')?clamp(7+10*respDrive,4,24):s.vent.rr;
+if(vm==='spont'&&s.manualAssistUntil>s.t)freq=Math.max(freq,12);
+const targetVT=s.vent.vt;
+let vt=targetVT;
+if(vm==='pc')vt=clamp(s.vent.pressure*compliance*1000/1.35,110,900);
+if(vm==='ps')vt=clamp((s.vent.pressure*.7+3*respDrive)*compliance*1000/1.25,90,850);
+if(vm==='spont')vt=clamp((8*respDrive)*compliance*1000/1.1,70,750);
+if(vm==='spont'&&s.manualAssistUntil>s.t)vt=clamp(450*(compliance/.05),200,650);
+s.deliveredVT=vt;
+const expSeconds=(60/freq)*(1-insp);
+const neededExp=1.35*s.airwayRes*(vt/450);
+const trapping=clamp((neededExp-expSeconds)/Math.max(.65,neededExp),0,.95);
+const targetAutoPeep=trapping*19;
+s.autoPeep+=(targetAutoPeep-s.autoPeep)*Math.min(1,dt*.16);
+const resistive=vt/45*s.airwayRes;
+const elastic=vt/(compliance*1000);
+s.pip=clamp(peep+s.autoPeep+(vm==='vc'?elastic*.65+resistive:vm==='pc'?s.vent.pressure+resistive*.3:vm==='ps'?s.vent.pressure+resistive*.2:elastic*.25+resistive*.25),5,80);
+s.minuteVent=(freq*vt/1000)*clamp(1-trapping*.70,.25,1);
+s.effectiveRR=freq;
+// A mild cumulative penalty for prolonged high airway pressure, independent of terminal failure.
+const pressureExcess=Math.max(0,s.pip-33);
+s.procedurePenalty=(s.procedurePenalty||0)+(pressureExcess*.00025+(s.insufflation>0?Math.max(0,s.etco-48)*.00035:0))*dt;
+const ventilation=Math.max(.2,s.minuteVent/5.4);
+const co2Target=37/Math.max(.14,ventilation*(1-.91*s.airwayObstruction))+(s.mh*32)+14*s.co2Insult+11*s.broncho;
+s.etco+=(clamp(co2Target,18,90)-s.etco)*Math.min(1,dt*.075);
+// Crisis physiology: airway obstruction, aspiration, vasodilation and hypermetabolic demand.
+if(s.allergic>0){s.allergic=Math.max(0,s.allergic-dt*.0018);s.broncho=clamp(s.broncho+dt*s.allergic*.00045,0,1.4);}
+if(s.epinephrineRelief>0)s.epinephrineRelief=Math.max(0,s.epinephrineRelief-dt*.0028);
+if(s.airwayObstruction>0)s.airwayObstruction=clamp(s.airwayObstruction-dt*.00023,0,1);
+if(s.aspiration>0)s.aspiration=Math.max(0,s.aspiration-dt*.00036);
+if(s.mh>0){s.mh=clamp(s.mh+(s.triggerOn&&!s.mhControlled?dt*.0015:-dt*(s.antidote?.0026:.00005)),0,1.5);s.temp=clamp(s.temp+dt*(s.mhControlled?-.002:s.mh*.008),35,42);}
+if(s.ischemia>0)s.ischemia=Math.max(0,s.ischemia-dt*.0009);
+const rawOxygen=99.4-23*s.hypoxic-11*s.broncho-8*trapping-23*s.airwayObstruction-16*s.aspiration-8*s.allergic+clamp((fio-.35)*13,-4,5)+clamp((peep-5)*.65,-3,4);
+s.spo+=(clamp(rawOxygen,65,100)-s.spo)*Math.min(1,dt*.070);
+const hypoxPVR=1+Math.max(0,96-s.spo)*.035+Math.max(0,s.etco-42)*.018;
+const pressurePVR=1+Math.max(0,peep+s.autoPeep-8)*.035;
+s.pvr=c.pvr*hypoxPVR*pressurePVR*(1-.11*e.dobu)*(1+.16*s.aspiration);
+const systemicStress=clamp((s.stim*.9)*(1-.78*s.analg)+s.mh*.5+s.ischemia*.25,0,1.6);
+const sympat=systemicStress*.24+Math.max(0,70-s.map)*.004;
+s.hr=clamp(c.baseHR*(1+sympat+.38*s.mh+.18*s.allergic+.16*s.epinephrineRelief+.22*e.dobu+.12*e.sal-.20*e.esmo-.09*e.phen-.10*e.remi),37,160);
+const propVasc=(1-.46*e.prop)*(1-.14*clamp(s.etMac,0,2)),remiVasc=1-.08*e.remi;
+s.svr=clamp(c.svr*(1-s.vasoplegia)*(1-.66*s.allergic)*propVasc*remiVasc*(1+.86*e.norepi+.82*e.phen+.75*e.vaso-.20*e.dobu+.85*s.epinephrineRelief)*(1+systemicStress*.17),450,2600);
+s.contract=clamp(c.contract*(1-.26*e.prop-.10*s.etMac+.12*e.norepi+.65*e.dobu-.29*e.esmo)*(1+.12*systemicStress),.30,1.85);
+// Nonlinear biventricular mechanics: RV pressure/volume strain impairs LV filling.
+const intrathoracic=peep+s.autoPeep;
+const preloadRaw=s.volume*(1-.016*Math.max(0,intrathoracic-5))*(1-.17*s.insufflation);
+s.preload=clamp(preloadRaw,.30,1.45);
+const pvrRatio=s.pvr/200;
+const rvAfterload=1/(1+Math.max(0,pvrRatio-1)*(.14+(1-c.rv)*.32));
+s.rvStretch=clamp((s.preload-.91)*1.5+Math.max(0,pvrRatio-1)*(.15+(1-c.rv)*.22),0,1.6);
+const septalPenalty=clamp(s.rvStretch*(1-c.rv*.55)*.35,0,.48);
+s.lvFill=clamp(s.preload*(1-septalPenalty),.24,1.45);
+const lowFill=Math.min(1,s.lvFill);
+const starling=clamp(.20+1.15*lowFill-.27*lowFill*lowFill-Math.max(0,s.lvFill-1.08)**2*1.65,.19,1.18);
+const afterload=1/(1+Math.max(0,s.svr/1150-1)*(.27+(1-c.contract)*.48));
+s.obstruction=c.archetype==='lvot'?clamp((1.12-s.lvFill)*.80+(s.hr-78)*.006+(s.contract-1.18)*.45+Math.max(0,1050-s.svr)/2000,0,.83):0;
+const rvFactor=clamp((c.rv+.13)*rvAfterload,.16,1.20);
+const rhythmFactor=s.rhythm==='Sinus'?1:.75;
+const rateEfficiency=clamp(1-Math.max(0,s.hr-118)*.003,.7,1);
+s.co=clamp((1-.22*s.ischemia)*5.65*(s.hr/80)*rateEfficiency*s.contract*starling*afterload*rvFactor*rhythmFactor*(1-s.obstruction)*(c.archetype==='as'?.82:1),.55,11.5);
+// State-dependent crises. Trigger thresholds are game mechanics, not clinical incidence estimates.
+const afRisk=(s.rvStretch>.46?1:0)+(s.hr>115?0.65:0)+(s.spo<91?0.65:0)+(s.map<58?0.3:0);
+s.arrhythmiaBurden=clamp(s.arrhythmiaBurden+(afRisk>1.2?dt*(afRisk-.65):-dt*.8),0,110);
+if(s.arrhythmiaBurden>38&&s.rhythm==='Sinus'&&s.t>s.rhythmCooldown&&s.t>95&&s.t<500){s.arrhythmiaBurden=0;s.arrhythmiaDone=true;processEvent({title:'Atrial tachyarrhythmia',body:'Increasing right-sided strain and physiologic stress precipitated AF with rapid ventricular response. Restore rhythm and correct ongoing triggers.',kind:'af',value:1});}
+if(s.rhythm!=='Sinus'&&s.t>s.rhythmUntil){s.rhythm='Sinus';s.rhythmCooldown=s.t+60;log('Rhythm spontaneously settles; triggers may persist.');}
+if(s.autoPeep>6&&s.broncho>.35&&!s.bronchEventDone){s.bronchEventDone=true;processEvent({title:'Dynamic hyperinflation',body:'Expiratory flow limitation is causing auto-PEEP and impaired venous return. Consider lower RR, shorter inspiration, bronchodilation, and assessment.',kind:'hyperinflation',value:1});}
+// Conditional crisis: sustained severe low output under stress can provoke a transient tachycardic episode.
+const danger=(s.co<2.6&&s.map<63&&s.t>110&&s.t<490);s.hemodynamicStress=clamp(s.hemodynamicStress+(danger?dt:-dt*1.8),0,120);
+if(s.hemodynamicStress>36&&!s.secondaryEventDone){s.secondaryEventDone=true;s.tachyUntil=s.t+60;processEvent({title:'Low-output spiral',body:'Sustained low flow provokes compensatory tachycardia and increases myocardial demand. Correct the cause, not only the displayed MAP.',kind:'compensatory',value:1});}
+if(s.tachyUntil&&s.t<s.tachyUntil)s.hr=clamp(s.hr+16,37,170);if(s.rhythm!=='Sinus')s.hr=clamp(s.hr+35,45,175);
+const mapTarget=clamp(5+s.co*s.svr/80,20,165);s.map+=(mapTarget-s.map)*Math.min(1,dt*.13);
+// Severity-weighted harm is continuous and persists through restoration of vital signs.
+const lowMap=Math.max(0,62-s.map),highMap=Math.max(0,s.map-115),lowCo=Math.max(0,3.0-s.co),lowSpo=Math.max(0,94-s.spo),highCo2=Math.max(0,s.etco-51);
+const light=s.phase==='Surgery'||s.phase==='Maintenance'?Math.max(0,.48-s.hyp-.17*s.analg)*s.stim:0;
+const lateSed=s.phase==='Emergence'?Math.max(0,s.hyp-.42):0;
+const oxygenDebt=s.bloodDebt*Math.max(.15,s.co/4.8);const harm=(s.mh*.075+s.airwayObstruction*.10+s.allergic*.055+s.aspiration*.020+s.ischemia*.03+lowMap*.0013+highMap*.00018+lowCo*.024+lowSpo*.007+highCo2*.0018+light*.12+lateSed*.035+Math.max(0,s.bloodDebt-.12)*.075+Math.max(0,s.autoPeep-5)*.0015+(s.rhythm!=='Sinus'?.025:0)+oxygenDebt*.009)*dt;
+if(s.t-s.lastReplay>=3){s.lastReplay=s.t;s.replay.push({t:s.t,map:s.map,hr:s.hr,spo:s.spo,co:s.co,score:Math.round(100-s.penalty*1.65),hyp:s.hyp,analg:s.analg});}s.penalty+=harm;s.reserve=clamp(100-(s.penalty+(s.procedurePenalty||0))*1.9,0,100);s.score=clamp(Math.round(100-(s.penalty+(s.procedurePenalty||0))*1.65-(s.loss>.55?8:0)),0,100);
+if(s.map<34||s.spo<77)s.failTime+=dt;else s.failTime=Math.max(0,s.failTime-2*dt);
+if(s.failTime>38){endCase(false,'Irreversible deterioration after sustained profound instability.');return;}
+if(s.t>=c.duration){const recoveryPenalty=s.hyp>.55?8:0;s.score=clamp(s.score-recoveryPenalty,0,100);endCase(true,recoveryPenalty?'Case complete, but delayed recovery from residual hypnosis.':'Case complete. Review the outcome and decisions.');}
+}
+function endCase(success,reason){if(state.finished)return;sound(success?'win':'lose');state.finished=true;playing=false;runScores.push({id:state.case.id,score:state.score,success,seed:state.case.seedCode});log(reason);showResults(success,reason);}
+function setPlaying(next){
+ if(difficulty==='attending'||!state||state.finished)return;
+ if(playing===next)return;
+ playing=next;accum=0;lastFrame=0;AUDIO.lastPulse=0;
+ const button=$('pauseBtn');button.textContent=playing?'⏸ Pause':'▶ Resume';button.setAttribute('aria-pressed',String(playing));
+ sound(playing?'run':'pause');render(false);
+}
+function togglePlaying(){if(!$('modal').classList.contains('hidden'))return;setPlaying(!playing);}
+function tick(t){if(!lastFrame)lastFrame=t;let elapsed=Math.min(.1,(t-lastFrame)/1000);lastFrame=t;if(playing&&state&&!state.finished){accum+=elapsed*2*speed;let count=0;while(accum>=MAX_DT&&count<70&&!state.finished){integrate(MAX_DT);accum-=MAX_DT;count++;}pulseSound();if(state&&state.t-lastDraw>1.8){history.push({map:state.map,hr:state.hr,spo:state.spo});if(history.length>190)history.shift();lastDraw=state.t;}render(state.t-lastUIRefresh>=2);if(state.t-lastUIRefresh>=2)lastUIRefresh=state.t;}requestAnimationFrame(tick);}
+function displayTime(t){return `${String(Math.floor(t/60)).padStart(2,'0')}:${String(Math.floor(t%60)).padStart(2,'0')}`;}
+function paint(){const c=$('trace'),ctx=c.getContext('2d'),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);ctx.strokeStyle='#1f3540';ctx.lineWidth=1;for(let y=25;y<h;y+=25){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}const series=[{key:'map',color:'#59d5d7',lo:25,hi:135},{key:'hr',color:'#79dda0',lo:40,hi:155},{key:'spo',color:'#ffc873',lo:70,hi:101}];series.forEach(p=>{ctx.strokeStyle=p.color;ctx.lineWidth=2;ctx.beginPath();history.forEach((d,i)=>{const x=i/189*w,y=h-5-clamp((d[p.key]-p.lo)/(p.hi-p.lo),0,1)*(h-10);i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.stroke();});}
+function drawVent(s){const canv=$('ventTrace');if(!canv)return;const g=canv.getContext('2d'),w=canv.width,h=canv.height;g.clearRect(0,0,w,h);g.strokeStyle='#273f52';g.lineWidth=1;g.beginPath();g.moveTo(0,h/2);g.lineTo(w,h/2);g.stroke();const breaths=3,insp=s.vent.insp/100;g.lineWidth=2;g.strokeStyle='#70e1da';g.beginPath();for(let i=0;i<=w;i++){const phase=(i/w*breaths)%1;const high=phase<insp?Math.sin(Math.PI*phase/insp)*.9:-Math.exp(-(phase-insp)*3.4/Math.max(.3,s.airwayRes))*.75;const y=h/2-high*h*.35;if(i===0)g.moveTo(i,y);else g.lineTo(i,y);}g.stroke();g.fillStyle='#7e9aac';g.font='12px system-ui';g.fillText('FLOW · schematic, not patient-measured',12,16);}
+function drawLiveWaves(s){const can=$('liveWave');if(!can)return;const g=can.getContext('2d'),w=can.width,h=can.height;g.fillStyle='#07121a';g.fillRect(0,0,w,h);
+ const t=s.t,rate=clamp(s.hr/75,.45,2.1),breaths=clamp(s.vent.rr/12,.45,2);g.lineWidth=1.9;
+ for(let k=0;k<2;k++){g.strokeStyle=k===0?'#6be3a8':'#e6c177';g.beginPath();for(let x=0;x<w;x++){let p=((x/w*(k===0?rate*8:breaths*3)+t*(k===0?rate*.012:breaths*.003))%1+1)%1;
+ let spike=0;if(k===0){let pp=Math.exp(-Math.pow((p-.13)/.045,2))*.11,qq=-Math.exp(-Math.pow((p-.30)/.009,2))*.2,rr=Math.exp(-Math.pow((p-.325)/.006,2))*1.10,ss=-Math.exp(-Math.pow((p-.34)/.011,2))*.35,tt=Math.exp(-Math.pow((p-.58)/.08,2))*.16;spike=pp+qq+rr+ss+tt;if(s.rhythm!=='Sinus')spike*=.76;}else{const plateau=p>.08&&p<.54?Math.min(1,(p-.08)/.05):p<.66?Math.max(0,1-(p-.54)/.12):0;spike=plateau*(.6+Math.min(.45,s.etco/75));}
+ let mid=k===0?h*.29:h*.83;let y=mid-spike*(k===0?31:26);if(x===0)g.moveTo(x,y);else g.lineTo(x,y);}g.stroke();}
+ g.fillStyle='#92b0bd';g.font='10px system-ui';g.fillText('II',10,13);g.fillText('CO₂',10,59);}
+function render(full=true){if(!state)return;const s=state;
+ $('patientStats').innerHTML=`<span><b>${escapeText(s.case.gender)}</b></span><span>Age <b>${s.case.age} y</b></span><span>Weight <b>${s.case.weightKg} kg</b></span><span>Height <b>${s.case.heightCm} cm</b></span><span>BMI <b>${s.case.bmi.toFixed(1)}</b></span>`;$('caseName').textContent=s.case.procedure+' · Patient '+String(runPosition+1);$('technique').textContent=s.etMac>.05?`${s.agent.toUpperCase()} · ${round(s.etMac,1)} MAC`:'TIVA';$('time').textContent=`${displayTime(s.t)} / ${displayTime(s.case.duration)}`;$('hr').textContent=round(s.hr);$('map').textContent=round(s.map);$('spo').textContent=round(s.spo);$('etco').textContent=round(s.etco);$('co').textContent=upgrades.includes('capacity')?round(s.co,1):'—';$('pipInfo').textContent='PIP '+round(s.pip)+' cmH₂O';$('ventMeasured').textContent='VT '+round(s.deliveredVT||450)+' mL · RR '+round(s.effectiveRR||s.vent.rr);$('macReference').textContent=(MAC_REF[s.agent]?(MAC_REF[s.agent]*Math.pow(.94,((s.case.age||50)-40)/10)).toFixed(1)+'%':'—');$('etMac').textContent=round(s.etMac,2)+'×';$('macAdequacy').textContent=round(s.combinedAdequacy||0)+'%';$('autoInfo').textContent='Auto-PEEP: '+round(s.autoPeep,1)+' cmH₂O';$('rhythmInfo').textContent='Rhythm: '+s.rhythm+' · T '+round(s.temp,1)+'°C';drawVent(s);drawLiveWaves(s);
+const setCol=(id,v,warn,crit)=>{const el=$(id);el.className=v<crit?'bad':v<warn?'caution':'good';};setCol('map',s.map,65,55);setCol('spo',s.spo,96,92);$('hr').className=s.hr>115||s.hr<50?'bad':s.hr>100?'caution':'good';$('etco').className=s.etco>50?'bad':s.etco>44?'caution':'good';
+$('reserveValue').textContent=round(s.reserve)+'%';$('reserveBar').style.width=round(s.reserve)+'%';$('hyp').textContent=round(s.hyp*100)+'%';$('hypBar').style.width=round(s.hyp*100)+'%';$('analg').textContent=round(s.analg*100)+'%';$('analgBar').style.width=round(s.analg*100)+'%';$('vol').textContent=round(s.volume*100)+'%';$('volBar').style.width=round(clamp(s.volume*100,0,100))+'%';$('score').textContent=s.score;$('penalty').textContent=round(s.penalty+(s.procedurePenalty||0),1);$('caseBar').style.width=round(s.t/s.case.duration*100)+'%';$('percent').textContent=round(s.t/s.case.duration*100)+'%';$('phaseName').textContent=s.phase;
+alarmUpdate();$('pauseBtn').textContent=s.finished?'■ Finished':playing?'⏸ Pause':'▶ Resume';$('pauseBtn').disabled=s.finished;
+$('trendText').textContent=s.map<60?'CIRCULATORY ALERT':s.spo<94?'OXYGENATION ALERT':'Continuous simulation';
+const f=s.assessedFilling&&s.assessedFilling.until>=s.t?s.assessedFilling:null;
+ const h=s.assessedHemodynamics&&s.assessedHemodynamics.until>=s.t?s.assessedHemodynamics:null;
+ $('diagnostics').innerHTML=`<span>Preload: ${f?round(f.preload,2)+' rel.':'unmeasured'}</span><span>SVR: ${h?round(h.svr)+' dyn':'unmeasured'}</span><span>Contractility: ${f?round(f.contract,2)+' rel.':'unmeasured'}</span><span>PVR: ${h?round(h.pvr)+' dyn':'unmeasured'}</span>`;
+$('diagnosticNote').textContent='Use Investigations for filling/function and advanced flow-pressure estimates; results remain visible for 75 simulated seconds.';
+$('eventTitle').textContent=s.events.length?s.events[s.events.length-1]:'Clinical briefing';$('eventBody').textContent=s.events.length?eventDescription(s.events[s.events.length-1]):'Procedure underway. Diagnose the physiology from available monitoring and clinical events.';
+$('objectives').innerHTML=`<strong>Maintain adequate perfusion, oxygenation and anesthesia.</strong><p class="description">Sustained derangements incur penalties. During insufflation, elevated airway pressure or CO₂ adds a smaller penalty.</p>`;
+$('upgrades').textContent=upgrades.length?upgrades.map(x=>({echo:'Bedside echo',capacity:'Extra bandwidth',pharmacy:'Prepared pumps'})[x]).join(', '):'None';
+infusionNames.forEach(n=>{const el=$('effect-'+n);if(el)el.textContent=actualInfusionRate(n,s.drugs[n].rate);});
+if(full){const bt=$('eventActions');bt.innerHTML='';if(s.bloodRate>0){bt.innerHTML+='<button data-act="hemostasis">Request hemostasis</button><button data-act="blood">Transfuse</button>';}if(s.insufflation>0)bt.innerHTML+='<button data-act="decompress">Request desufflation</button>';if(s.hypoxic>0||s.broncho>0)bt.innerHTML+='<button data-act="airway">Optimize airway</button>';if(s.rhythm!=='Sinus')bt.innerHTML+='<button data-act="rhythm">Manage rhythm</button>';/* Do not reveal anaphylaxis through action recommendations. */if(s.airwayObstruction>.2)bt.innerHTML+='<button data-act="cpap">Airway maneuvers</button>';/* Crisis diagnosis is not revealed by suggested actions. */if(!bt.innerHTML)bt.innerHTML='<span class="mini">No crisis-specific action is currently indicated.</span>'; }
+if(full){$('log').innerHTML=s.log.map(l=>`<div><time>${displayTime(l.t)}</time>${l.msg}</div>`).join('');const inputs=document.querySelectorAll('button[data-drug]');inputs.forEach(b=>{if(b.dataset.kind==='rate'){const n=b.dataset.drug;const val=$('rate-'+n).value;if(difficulty==='standard'){b.textContent=(Number(val)===s.drugs[n].rate?'Set':'Apply');b.disabled=s.finished||(Number(val)===s.drugs[n].rate);}else{b.textContent='Set';b.disabled=s.finished;}}});}
+paint();}
+function eventDescription(title){if(title==='Low-output spiral')return 'Sustained low cardiac output and low MAP have increased compensatory tachycardia. Consider the underlying cause and drug effects.';if(title==='Atrial tachyarrhythmia')return 'AF with rapid ventricular response has emerged from right-sided strain and stress. Correct causes; address the trigger and manage the rhythm.';if(title==='Dynamic hyperinflation')return 'Elevated auto-PEEP is reducing venous return. Adjust ventilation and treat airway resistance.';for(const e of state.case.events)if(e.title===title)return e.body;return ''}
+function actionButton(kind,label){if(difficulty==='attending'&&['epi','dantrolene','deepen','fluids','blood','paralyze','triggerOn'].includes(kind))return '';return `<button data-act="${kind}">${label}</button>`;}
+function manualActionRow(kind,label,unit){return `<div class="doseRow"><label>${label}<span class="mini">${unit}</span></label><input type="number" id="dose-action-${kind}" min="0" step="any" placeholder="Dose" inputmode="decimal" aria-label="${label} dose in ${unit}"><button data-manual-act="${kind}">Administer</button></div>`;}
+function drugView(){let html='';infusionNames.forEach(n=>{const d=DRUGS[n],u=INFUSION_UNITS[n],opts=levels[n].map(v=>`<option value="${v}" ${state&&state.drugs[n].rate===v?'selected':''}>${infusionLabel(n,v)}</option>`).join('');const control=difficulty==='attending'?`<div class="act"><input type="number" id="rate-${n}" aria-label="${d.name} rate in ${u.unit}" min="0" max="${levels[n].at(-1)*u.factor*2}" placeholder="${u.unit}" step="any" inputmode="decimal"><span class="unitBadge">${u.unit}</span><button data-kind="rate" data-drug="${n}">Set</button></div>`:`<div class="act"><select id="rate-${n}" aria-label="${d.name} infusion rate">${opts}</select><button data-kind="rate" data-drug="${n}">Apply</button></div>`;html+=`<div class="drug"><div class="drughead"><strong style="color:${d.color}">${d.name}</strong><span id="effect-${n}"></span></div><div class="explain">${d.desc}</div>${control}</div>`;});$('infusions').innerHTML='<p class="description">Weight-based rates use the patient weight shown on the monitor. This is experimental dose-response modeling.</p>'+html;
+$('boluses').innerHTML=`<p class="description">${difficulty==='attending'?'Enter dose numerically to administer. All doses are mapped into experimental game effects, not validated clinical models.':'Boluses use simplified game amounts. Effects lag drug administration.'}</p>${[['phen',1.8,'SVR boost; possible bradycardia'],['norepi',1.0,'Short vasopressor support'],['prop',1.6,'Rapid hypnosis; vasodilation'],['remi',1.4,'Analgesia and sympatholysis'],['esmo',1.8,'Short-acting HR control'],['sal',2.3,'Bronchodilation']].map(([n,v,desc])=>difficulty==='attending'?`<div class="drug"><div class="drughead"><strong>${DRUGS[n].name}</strong><span class="mini">${BOLUS_UNITS[n].unit}</span></div><div class="act"><input type="number" id="dose-${n}" placeholder="Dose" min="0" step="any" inputmode="decimal"><button data-manual-bolus="${n}">Give</button></div><div class="explain">${desc}</div></div>`:`<div class="drug"><div class="drughead"><strong>${DRUGS[n].name}</strong><button data-kind="bolus" data-drug="${n}" data-amt="${v}">Give</button></div><div class="explain">${desc}</div></div>`).join('')}`;
+$('support').innerHTML=`<div class="actionGrid">${actionButton('fluids','Crystalloid bolus')}${actionButton('blood','Blood products')}<button data-act="inspect">Surgical status</button><button data-act="airway">Airway optimization</button><button data-act="hemostasis">Request hemostasis</button><button data-act="decompress">Desufflation</button><button data-act="rhythm">Rhythm management</button></div>${difficulty==='attending'?manualActionRow('fluids','Crystalloid','mL')+manualActionRow('blood','Blood products','units'):''}<p class="description">Fluid responses vary with loading conditions, hemorrhage and RV strain.</p>`;
+$('crisis').innerHTML=`<p class="description">Intervene using the available monitor and diagnostic findings. Crisis effects remain illustrative.</p><div class="actionGrid"><button data-act="oxygen">100% oxygen</button>${actionButton('epi','Epinephrine rescue')}<button data-act="cpap">Jaw thrust + CPAP</button>${actionButton('deepen','Deepen anesthetic')}${actionButton('paralyze','Paralysis / airway rescue')}<button data-act="suction">Suction / check ETT</button>${actionButton('dantrolene','Dantrolene')}<button data-act="triggerOff">Stop volatile</button>${actionButton('triggerOn','Start volatile')}<button data-act="help">Call for help</button></div>${difficulty==='attending'?manualActionRow('epi','Epinephrine','mcg')+manualActionRow('deepen','Propofol to deepen','mg')+manualActionRow('dantrolene','Dantrolene','mg/kg')+manualActionRow('paralyze','Rocuronium / airway rescue','mg')+manualActionRow('triggerOn','Volatile setting','%'):''}<p class="description">Clinical decisions in the game do not constitute treatment protocols or dosing guidance.</p>`;
+$('investigations').innerHTML=`<p class="description">Each test provides different clues. No investigation directly identifies the hidden diagnosis.</p><div class="actionGrid diagnosticGrid"><button data-test="auscultation">Auscultation</button><button data-test="circuit">Check circuit / ETT</button><button data-test="pocus">Focused cardiac POCUS</button><button data-test="filling">Preload / inotropy assessment</button><button data-test="hemodynamics">Advanced SVR / PVR study</button><button data-test="abg">Arterial blood gas</button><button data-test="labs">POC laboratories</button><button data-test="surgical">Ask surgical team</button></div><p class="description">Results appear below; data are approximate simulation estimates.</p>`;
+$('investigationResult').classList.add('hidden');$('investigationResult').innerHTML='';}
+function startCase(idx=0,runType='solo',caseOverride=null){
+ AUDIO.lastAlarm=-99;mode=runType;const scenario=caseOverride||runPlan[runPosition]||generateCase(activeSeed,currentArchetype,0);
+ currentCase=scenario;state=seed(scenario);
+ eventDone=new Set();history=[];lastDraw=0;accum=0;playing=(difficulty==='attending');$('ventMode').value='vc';$('pressure').value=15;$('pressureLabel').textContent='15 cmH₂O';$('agent').value='off';$('macTarget').value=0;$('macLabel').textContent='0.0×';adjustVentMode();lastFrame=0;
+ log('Procedure: '+scenario.procedure+'. Initial infusions established. '+(state.triggerOn?'Volatile maintenance agent running.':'TIVA-based maintenance.')+' Underlying diagnosis withheld until debrief.');sound('run');drugView();render();$('modal').classList.add('hidden');
+ $('roundMode').textContent=mode==='campaign'?`CAMPAIGN ${runPosition+1}/${runPlan.length}`:'SOLO';$('difficultyLabel').textContent=difficulty==='attending'?'ATTENDING':'STANDARD';$('pauseBtn').classList.toggle('hidden',difficulty==='attending');msg(difficulty==='attending'?'Attending Mode: simulation is live; type doses and infusion rates.':'Press Run to begin; pause and plan as needed.');
+}
+function startNew(runType){difficulty=$('difficultySelect')?.value||'standard';const input=$('seedInput');activeSeed=(input&&input.value.trim()?input.value.trim():freshSeed()).slice(0,42);currentArchetype=-1;mode=runType;upgrades=[];runScores=[];runPosition=0;runPlan=buildRun(activeSeed,currentArchetype,runType);startCase(0,runType,runPlan[0]);}
+let preHelpPlaying=false;
+function showIntro(help=false){
+ if(help&&state&&!state.finished){preHelpPlaying=playing;if(difficulty==='standard'){playing=false;accum=0;lastFrame=0;}}
+ else if(!help){playing=false;accum=0;lastFrame=0;}
+ $('modal').classList.remove('hidden');
+ $('modalContent').innerHTML=`<div class="sub">PRESSOR 0.9 · ADAPTIVE CRISES</div><h1>${help?'How to play':'Every run is an unknown patient.'}</h1>
+ <p>Start immediately with a randomized patient, procedure, and hidden complications. No patient slots or diagnoses to choose from. Every seed deterministically selects an underlying pathology and case events; use a known seed to repeat or challenge a friend.</p>
+ <div class="row" style="align-items:end;flex-wrap:wrap;gap:12px"><label class="description" style="flex:1;min-width:180px">OPTIONAL CASE SEED <input id="seedInput" maxlength="42" value="${escapeText(activeSeed)}" spellcheck="false" placeholder="Leave blank for a new random case" style="display:block;width:100%;margin-top:5px;padding:10px;background:#081b28;color:#e4f6f8;border:1px solid #426277;border-radius:8px"></label><button id="randomSeed">New random seed</button><button id="dailySeed">Daily seed</button></div>
+ <div class="difficultyPicker"><label for="difficultySelect">DIFFICULTY</label><select id="difficultySelect"><option value="standard" ${difficulty==='standard'?'selected':''}>Standard — pause + quick drug controls</option><option value="attending" ${difficulty==='attending'?'selected':''}>Attending Mode — no pause + manual dosing</option></select><div class="description">Attending Mode starts the simulation immediately. Enter all infusion rates and medication boluses manually; intervention timing continues while you work.</div></div>
+ <div class="event" style="margin-top:13px"><strong>Diagnosis withheld until the debrief</strong><div class="status">Clinical signs appear as problems evolve. Anaphylaxis, airway obstruction, bronchospasm, malignant hyperthermia, aspiration, hemorrhage, and other crises require different interventions. Some emergencies evolve from your decisions.</div></div>
+ <p class="description">1× runs at 2 simulated seconds per real second. Standard Mode permits pause with <span class="kbd">Space</span>. Attending Mode disables pause. Choose 2×/4× for faster play. No action points. Use drug controls, ventilator settings, and the Crisis tab. Dose displays use familiar clinical units, but drug-response scaling is experimental, not clinical guidance.</p>
+ <div class="actionRow"><button class="primary" id="soloStart">Start Case</button><button id="campaignStart">Start randomized 5-case campaign</button>${help&&state?'<button class="secondary" id="returnGame">Return to game</button>':''}</div>`;
+ const input=$('seedInput');$('difficultySelect').onchange=e=>{difficulty=e.target.value;};input.oninput=()=>{activeSeed=input.value.trim();};$('randomSeed').onclick=()=>{activeSeed=freshSeed();showIntro(help);};$('dailySeed').onclick=()=>{activeSeed=todaySeed();showIntro(help);};
+ $('soloStart').onclick=()=>startNew('solo');$('campaignStart').onclick=()=>startNew('campaign');if($('returnGame'))$('returnGame').onclick=()=>{$('modal').classList.add('hidden');if(difficulty==='standard'&&state&&!state.finished){playing=preHelpPlaying;accum=0;lastFrame=0;render(false);}};}
+function replayCanvas(){const el=$('replayChart');if(!el||!state)return;const ctx=el.getContext('2d'),w=el.width,h=el.height,series=state.replay;if(series.length<2)return;
+ ctx.clearRect(0,0,w,h);ctx.fillStyle='#071321';ctx.fillRect(0,0,w,h);const left=42,top=17,right=12,bottom=34,plotW=w-left-right,plotH=h-top-bottom;
+ ctx.strokeStyle='#29475a';ctx.lineWidth=1;for(let i=0;i<5;i++){let y=top+(i/4)*plotH;ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(w-right,y);ctx.stroke();}
+ const variables=[['map','#64e0e3',20,130],['hr','#7bdd9d',45,170],['spo','#ffd18a',70,100],['co','#a7b8ff',0,9]];
+ variables.forEach(([key,color,lo,hi])=>{ctx.strokeStyle=color;ctx.lineWidth=2;ctx.beginPath();series.forEach((pt,i)=>{const x=left+(pt.t/state.case.duration)*plotW,y=top+(1-clamp((pt[key]-lo)/(hi-lo),0,1))*plotH;if(i)ctx.lineTo(x,y);else ctx.moveTo(x,y)});ctx.stroke();});
+ ctx.font='11px system-ui';ctx.fillStyle='#99b4c6';ctx.fillText('0:00',left,h-10);ctx.fillText(displayTime(state.case.duration),w-47,h-10);
+ state.phaseMarks.forEach(mark=>{const x=left+(mark.t/state.case.duration)*plotW;ctx.strokeStyle='#e8ae7590';ctx.setLineDash([3,4]);ctx.beginPath();ctx.moveTo(x,top);ctx.lineTo(x,top+plotH);ctx.stroke();ctx.setLineDash([]);});
+}
+function showResults(success,reason){const s=state;const next=mode==='campaign'&&runPosition<runPlan.length-1;
+ $('modal').classList.remove('hidden');const lastScores=runScores.map(x=>x.score);const runningTotal=lastScores.reduce((a,b)=>a+b,0);
+ $('modalContent').innerHTML=`<div class="sub">CASE REPLAY · ${escapeText(s.case.seedCode)} · ${escapeText(s.case.procedure)} · STAGE ${runPosition+1}</div><h1 style="color:${success?'#85e4ab':'#ff8590'}">${success?'CASE COMPLETE':'CRITICAL FAILURE'}</h1><div class="row" style="margin:12px 0"><div><div class="sub">OUTCOME SCORE</div><div style="font-size:52px;font-weight:850;color:#70d5dc">${s.score}<span style="font-size:18px;color:#8ca3b3">/100</span></div></div><div class="stateRow"><span>Reserve ${round(s.reserve)}%</span><span>Blood debt ${round(s.bloodDebt*100)}%</span><span>CO ${round(s.co,1)} L/min</span><span>MAP ${round(s.map)} mmHg</span></div></div><p>${escapeText(reason)}</p>
+ <h2>Case diagnosis and explanation</h2><p class="description">Patient: ${escapeText(s.case.gender)}, ${s.case.age} years · ${s.case.weightKg} kg · ${s.case.heightCm} cm · BMI ${s.case.bmi.toFixed(1)}</p><div class="event"><strong>${escapeText(s.case.short)}</strong><div class="status">${escapeText(s.case.subtitle)}<p>${escapeText(s.case.goal)}</p></div></div><p class="description"><strong>Crisis reveal:</strong> ${escapeText(({anaphylaxis:'Perioperative anaphylaxis',bronchospasm:'Bronchospasm',laryngospasm:'Laryngospasm / upper-airway obstruction',hyperinflation:'Dynamic hyperinflation',mh:'Malignant-hyperthermia susceptibility and possible trigger exposure',aspiration:'Pulmonary aspiration',ischemia:'Myocardial oxygen supply–demand mismatch'})[s.case.specialCrisis]||'None')}. The diagnosis and crisis track were hidden during the run. Recognition and treatment vary with the event.</p><h2>Physiology replay</h2><canvas id="replayChart" width="830" height="225" style="display:block;width:100%;background:#071321;border:1px solid #335066;border-radius:10px"></canvas><div class="mini" style="margin-top:5px"><span style="color:#64e0e3">■ MAP</span> · <span style="color:#7bdd9d">■ HR</span> · <span style="color:#ffd18a">■ SpO₂</span> · <span style="color:#a7b8ff">■ CO</span> · dashed lines = events · each trace normalized to its own chart scale</div>
+ <h2 style="margin-top:15px">Decision timeline</h2><div class="log" style="height:135px">${s.log.slice(0,42).map(l=>`<div><time>${displayTime(l.t)}</time>${escapeText(l.msg)}</div>`).join('')}</div><div class="sub" style="margin:12px 0">CAMPAIGN TOTAL: ${runningTotal} / ${100*runScores.length} · CASES ${runScores.length}/${runPlan.length}</div>
+ <div class="actionRow"><button class="primary" id="retry">Retry exact case</button>${next?'<button id="nextStage">Next case + upgrade</button>':''}<button id="newRun">Generate a new run</button><button id="copySeed">Copy seed</button></div>
+ <p class="description">Game scoring and models are illustrative and are not a clinical outcome prediction. Reusing a seed reproduces the patient and scheduled events; emergent physiology-dependent events also depend on your actions.</p>`;
+ replayCanvas();$('retry').onclick=()=>{if(mode==='campaign')runScores.pop();startCase(0,mode,s.case);};if(next)$('nextStage').onclick=showUpgrade;$('newRun').onclick=()=>{activeSeed=freshSeed();showIntro();};$('copySeed').onclick=async()=>{try{await navigator.clipboard.writeText(activeSeed);$('copySeed').textContent='Copied';}catch(e){$('copySeed').textContent=activeSeed;}};
+}
+function showUpgrade(){const available=[['echo','Bedside echo','POCUS and investigations remain available during the case.'],['capacity','Advanced flow monitor','Continuous CO estimate displayed during subsequent cases.'],['pharmacy','OR briefing team','Clinical event logs include an immediate context note.']].filter(a=>!upgrades.includes(a[0]));
+ $('modalContent').innerHTML=`<div class="sub">CAMPAIGN ${runPosition+1}/${runPlan.length} FINISHED</div><h1>Prepare for the next patient</h1><p>Next case: <strong>Blinded patient · ${escapeText(runPlan[runPosition+1].procedure)}</strong>. You are upgrading operational capability rather than changing drug potency.</p>${(available.length?available:[['rest','Team reset','Continue the campaign with existing upgrades.']]).map(([id,title,desc])=>`<div class="drug"><div class="row"><div><strong>${title}</strong><div class="description">${desc}</div></div><button data-up="${id}">Select</button></div></div>`).join('')}<p class="description">Current campaign: ${runScores.reduce((a,b)=>a+b.score,0)} / ${runScores.length*100} points.</p>`;
+ document.querySelectorAll('[data-up]').forEach(b=>b.onclick=()=>{if(b.dataset.up!=='rest')upgrades.push(b.dataset.up);runPosition++;startCase(0,'campaign',runPlan[runPosition]);});}
+function bind(){
+$('soundBtn').onclick=()=>{if(AUDIO.enabled){sound('pause');AUDIO.enabled=false;}else{AUDIO.enabled=true;sound('run');}setSoundUI();};
+$('audioVolume').oninput=e=>{AUDIO.volume=Number(e.target.value)/100;};
+$('alarmToggle').onchange=e=>{AUDIO.alarms=e.target.checked;sound('click');};$('pulseToggle').onchange=e=>{AUDIO.pulse=e.target.checked;sound('click');};
+document.addEventListener('click',e=>{const b=e.target.closest('button,.choice');if(!b||b.disabled||b.id==='soundBtn')return;b.classList.remove('buttonPop');void b.offsetWidth;b.classList.add('buttonPop');if(b.dataset.drug||b.dataset.act||b.id==='ventApply')return;if(b.id==='pauseBtn'){return;}sound(b.dataset.speed?'click':b.dataset.case!==undefined?'menu':'click');},true);
+document.querySelectorAll('[data-speed]').forEach(b=>b.onclick=()=>{speed=Number(b.dataset.speed);document.querySelectorAll('[data-speed]').forEach(x=>x.classList.toggle('selected',x===b));});document.addEventListener('change',e=>{if(difficulty==='standard'&&e.target.matches('select[id^=rate-]')&&state){const n=e.target.id.slice(5),btn=document.querySelector('button[data-kind=rate][data-drug='+n+']');if(btn){btn.disabled=Number(e.target.value)===state.drugs[n].rate;btn.textContent=btn.disabled?'Set':'Apply';}}});$('pauseBtn').addEventListener('click',togglePlaying);$('restartBtn').onclick=()=>showIntro();$('helpBtn').onclick=()=>showIntro(true);$('assessBtn').onclick=()=>act('assess');$('ventApply').onclick=applyVent;$('bagAssist').onclick=()=>{if(!state||state.finished)return;if(state.vent.mode!=='spont'){msg('Switch to Man / Spont first.');return;}state.manualAssistUntil=state.t+10;log('Manual bag assistance for ten simulated seconds.');sound('confirm');};$('ventMode').addEventListener('change',adjustVentMode);$('agent').addEventListener('change',()=>{if($('agent').value==='off'){$('macTarget').value='0';$('macLabel').textContent='0.0×';}else if(Number($('macTarget').value)===0){$('macTarget').value='0.8';$('macLabel').textContent='0.8×';}updateVolatile();});$('macTarget').addEventListener('input',()=>{$('macLabel').textContent=Number($('macTarget').value).toFixed(1)+'×';});$('macTarget').addEventListener('change',updateVolatile);adjustVentMode();['rr','peep','fio','vt','insp','pressure'].forEach(id=>$(id).addEventListener('input',()=>{$(id+'Label').textContent=$(id).value+({rr:' /min',peep:' cmH₂O',fio:'%',vt:' mL',insp:'%',pressure:' cmH₂O'})[id];}));document.addEventListener('click',ev=>{const t=ev.target.closest('[data-drug],[data-act],[data-tab],[data-test],[data-manual-bolus],[data-manual-act]');if(!t)return;if(t.dataset.test){assess(t.dataset.test);return;}if(t.dataset.manualBolus){manualBolus(t.dataset.manualBolus);return;}if(t.dataset.manualAct){rescueDose(t.dataset.manualAct);return;}if(t.dataset.drug){if(t.dataset.kind==='bolus'){if(difficulty==='attending')manualBolus(t.dataset.drug);else bolus(t.dataset.drug,Number(t.dataset.amt));}else {const n=t.dataset.drug,el=$('rate-'+n);if(difficulty==='attending'){const value=Number(el.value);if(!el.value.trim()||!Number.isFinite(value)||value<0||value>levels[n].at(-1)*INFUSION_UNITS[n].factor*2){msg('Enter a valid rate in '+INFUSION_UNITS[n].unit);sound('error');return;}setRate(n,value/INFUSION_UNITS[n].factor);}else setRate(n,Number(el.value));}}else if(t.dataset.act)act(t.dataset.act);else if(t.dataset.tab){document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b===t));document.querySelectorAll('.tabview').forEach(d=>d.classList.toggle('hidden',d.id!==t.dataset.tab));}});document.addEventListener('keydown',ev=>{
+ if(ev.code!=='Space'||ev.repeat||ev.altKey||ev.ctrlKey||ev.metaKey)return;
+ const tag=ev.target?.tagName;
+ if(['INPUT','TEXTAREA','SELECT'].includes(tag)||ev.target?.isContentEditable)return;
+ if(!$('modal').classList.contains('hidden'))return;
+ ev.preventDefault();togglePlaying();
+},true);}
+bind();setSoundUI();showIntro();requestAnimationFrame(tick);
+
+</script><script>
+(function(){
+  "use strict";
+  const form = document.getElementById("pressorAccessForm");
+  const field = document.getElementById("pressorPassword");
+  const error = document.getElementById("pressorPasswordError");
+  form.addEventListener("submit", function(event){
+    event.preventDefault();
+    // IMPORTANT: client-only gate. The game and password remain inspectable in the HTML source.
+    if(field.value === "Ciprofol"){
+      field.value = "";
+      error.textContent = "";
+      document.body.classList.remove("access-locked");
+      document.getElementById("pressorAccessGate").remove();
+      const firstButton = document.getElementById("soloStart");
+      if(firstButton) firstButton.focus();
+    }else{
+      error.textContent = "Incorrect password. Please try again.";
+      field.select();
+      field.focus();
+    }
+  });
+  requestAnimationFrame(() => field.focus());
+})();
+</script></body></html>
